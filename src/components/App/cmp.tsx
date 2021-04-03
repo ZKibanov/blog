@@ -4,7 +4,7 @@ import {
   SET_FETCHING_ERROR,
   ArticleData,
   ErrorHttpAction,
-} from '../types';
+} from '../../types';
 
 export function UpdateArticles(payload: ArticleData): ArticleActionTypes {
   return {

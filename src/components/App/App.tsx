@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Articles from '../Articles/Articles';
+import NewArticle from '../NewArticle/NewArticle';
 import Header from '../Header/Header';
 import SignInForm from '../SignInForm/SignInForm';
 import SignUpForm from '../SignUpForm/SignUpForm';
@@ -16,6 +17,7 @@ const App: FC = () => (
       <Route path="/sign-up" component={SignUpForm} />
       <Route path="/sign-in" component={SignInForm} />
       <Route path="/articles" exact component={Articles} />
+      <Route path="/new-article" component={NewArticle} />
       <Route
         path="/articles/:slug"
         render={({ match, history, location }) => {

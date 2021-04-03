@@ -1,8 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import BlogApi from '../api/BlogApiService';
-import { updateUserInStore } from '../store/dataReducer';
-import store from '../store/store';
+import BlogApi from '../../api/BlogApiService';
+import { updateUserInStore } from '../../store/dataReducer';
+import store from '../../store/store';
 
 type Inputs = {
   example: string;

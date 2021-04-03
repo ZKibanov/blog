@@ -1,20 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React,{ FC } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import BlogApi from '../api/BlogApiService';
-import { updateUserInStore } from '../store/dataReducer';
-import store from '../store/store';
-import { useAppSelector } from '../hooks';
+import BlogApi from '../../api/BlogApiService';
+import { updateUserInStore } from '../../store/dataReducer';
+import store from '../../store/store';
+import { useAppSelector } from '../../hooks';
 
 type Inputs = {
-  example: string;
-  exampleRequired: string;
   loginPassword: string;
   loginEmail: string;
 };
 
-export default function SignInForm() {
+ const SignInForm:FC = () => {
   const isLoading = useAppSelector((state) => state.services.isLoading);
+  const history = useHistory();
 
   const { register, handleSubmit, watch, errors } = useForm<Inputs>();
   const onSubmit = (data: Inputs) => {
@@ -38,6 +37,7 @@ export default function SignInForm() {
 
       //   if (!response.status) {console.log(response.status)}
       store.dispatch(updateUserInStore(response.user));
+      history.push('/articles')
     });
   };
 
@@ -80,3 +80,5 @@ export default function SignInForm() {
     </form>
   );
 }
+
+export default SignInForm
