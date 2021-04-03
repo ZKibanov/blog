@@ -1,4 +1,4 @@
-import React,{ FC } from 'react';
+import React, { FC } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import BlogApi from '../../api/BlogApiService';
@@ -11,7 +11,7 @@ type Inputs = {
   loginEmail: string;
 };
 
- const SignInForm:FC = () => {
+const SignInForm: FC = () => {
   const isLoading = useAppSelector((state) => state.services.isLoading);
   const history = useHistory();
 
@@ -36,8 +36,11 @@ type Inputs = {
       }
 
       //   if (!response.status) {console.log(response.status)}
-      store.dispatch(updateUserInStore(response.user));
-      history.push('/articles')
+      if (response.user) {
+        const { username, email, token, id } = response.user;
+        store.dispatch(updateUserInStore({ username, email }));
+        history.push('/articles');
+      }
     });
   };
 
@@ -79,6 +82,6 @@ type Inputs = {
       {errors.loginPassword && <span>This field is required</span>}
     </form>
   );
-}
+};
 
-export default SignInForm
+export default SignInForm;

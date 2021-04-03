@@ -9,6 +9,7 @@ import './App.css';
 import 'antd/dist/antd.css';
 import 'normalize.css';
 import SingleArticle from '../SingleArticle/SingleArticle';
+import Profile from '../Profile/Profile';
 
 const App: FC = () => (
   <>
@@ -18,6 +19,8 @@ const App: FC = () => (
       <Route path="/sign-in" component={SignInForm} />
       <Route path="/articles" exact component={Articles} />
       <Route path="/new-article" component={NewArticle} />
+      <Route path="/profile" component={Profile} />
+
       <Route
         path="/articles/:slug"
         render={({ match, history, location }) => {
