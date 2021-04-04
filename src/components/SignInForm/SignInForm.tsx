@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
+import { useCookies } from 'react-cookie';
 import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import BlogApi from '../../api/BlogApiService';
-import { updateUserInStore } from '../../store/dataReducer';
-import store from '../../store/store';
 import { useAppSelector } from '../../hooks';
+import { manageUserToStore } from '../../utils';
 
 type Inputs = {
   loginPassword: string;
@@ -14,6 +14,7 @@ type Inputs = {
 const SignInForm: FC = () => {
   const isLoading = useAppSelector((state) => state.services.isLoading);
   const history = useHistory();
+  const [cookies, setCookie, removeCookie] = useCookies(['Token']);
 
   const { register, handleSubmit, watch, errors } = useForm<Inputs>();
   const onSubmit = (data: Inputs) => {
@@ -38,7 +39,8 @@ const SignInForm: FC = () => {
       //   if (!response.status) {console.log(response.status)}
       if (response.user) {
         const { username, email, token, id } = response.user;
-        store.dispatch(updateUserInStore({ username, email }));
+        setCookie('Authorization', token, { secure: true });
+        manageUserToStore(username, email);
         history.push('/articles');
       }
     });

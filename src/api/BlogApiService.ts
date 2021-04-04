@@ -9,23 +9,32 @@ interface ServerResponse extends AxiosResponse {
 }
 interface RequestHeaders {
   'Content-Type': 'application/json';
-  Authorisation?: string;
+  Authorization?: string;
 }
 
 const blogApi = async (
   url: string,
   method: Method = 'get',
   data: object | string | undefined = undefined,
-  headers: RequestHeaders = { 'Content-Type': 'application/json' }
+  authToken: string | undefined = undefined
 ): Promise<ServerResponse> => {
   try {
     store.dispatch(actions.setLoading());
+    const getHeaders = (): RequestHeaders => {
+      if (authToken) {
+        return {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${authToken}`,
+        };
+      }
+      return { 'Content-Type': 'application/json' };
+    };
     const response = await axios.request<ServerResponse>({
       baseURL: 'https://conduit.productionready.io/api/',
       url,
       method,
       data,
-      headers,
+      headers: getHeaders(),
     });
     console.log(response.status);
     store.dispatch(actions.setNotLoading());
