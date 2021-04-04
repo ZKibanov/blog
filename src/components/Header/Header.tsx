@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 import store from '../../store/store';
@@ -6,6 +7,7 @@ import { updateUserInStore } from '../../store/dataReducer';
 
 const Header: FC = () => {
   const user = useAppSelector((state) => state.data.user);
+  const [cookies, setCookie, removeCookie] = useCookies(['Token']);
 
   if (user !== null) {
     const { username } = user;
@@ -24,7 +26,10 @@ const Header: FC = () => {
           <li>
             <button
               type="button"
-              onClick={() => store.dispatch(updateUserInStore(null))}
+              onClick={() => {
+                store.dispatch(updateUserInStore(null));
+                removeCookie('Authorization');
+              }}
             >
               Log Out
             </button>

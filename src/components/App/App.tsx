@@ -18,14 +18,12 @@ const App: FC = () => {
   const [cookie] = useCookies(['Autorization']);
   useEffect(() => {
     if (cookie.Authorization) {
-      BlogApi('user', 'get', undefined, cookie.Authorization).then(
-        (response) => {
-          if (response.user) {
-            const { username, email, image } = response.user;
-            manageUserToStore(username, email);
-          }
+      BlogApi('user', 'get', undefined).then((response) => {
+        if (response.user) {
+          const { username, email, image } = response.user;
+          manageUserToStore(username, email);
         }
-      );
+      });
     }
   }, [cookie.Authorization]);
   return (
