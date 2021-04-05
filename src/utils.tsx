@@ -12,9 +12,9 @@ export const manageUserToStore = (
 export function getCookie(name: string) {
   const matches = document.cookie.match(
     new RegExp(
-              // eslint-disable-next-line
+      // eslint-disable-next-line
       '(?:^|; )' +
-            // eslint-disable-next-line
+        // eslint-disable-next-line
         name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
         '=([^;]*)'
     )
