@@ -2,7 +2,9 @@ import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { format } from 'date-fns';
+import { Avatar } from 'antd';
 import { Article } from '../../types';
+import classes from './Card.module.scss';
 
 const Card: FC<Article> = (props: Article) => {
   const {
@@ -16,17 +18,21 @@ const Card: FC<Article> = (props: Article) => {
   } = props;
   const { username, image } = author;
   return (
-    <article>
-      <div>
-        <Link to={`/articles/:${slug}`}>{title}</Link>
-        <button type="button">like</button>
-        <span>{favoritesCount}</span>
-        <ReactMarkdown>{description}</ReactMarkdown>
+    <article className = {classes.card}>
+      <div className = {classes.card__main}>
+        <Link className={classes.card__link} to={`/articles/:${slug}`}>{title}</Link>
+        <button type="button" className={classes["card__favourite-button"]}>like</button>
+        <span className={classes["card__favourite-count"]}>{favoritesCount}</span>
+        <ReactMarkdown className={classes.card__preview}>{description}</ReactMarkdown>
       </div>
-      <h3>{username}</h3>
-      <div>{format(new Date(createdAt), 'MMMMMMM dd, yyyy')}</div>
-      <img src={image} alt="avatar" />
-      <div />
+      <div className={classes.card__info}>
+     <div className={classes.card__user_wrapper}>
+      <h6 className={classes.card__username}>{username}</h6>
+      <span className={classes.card__created}>{format(new Date(createdAt), 'MMMMMMM dd, yyyy')}</span>
+      </div>
+      <Avatar className={classes.card__avatar} size={46} icon={ <img src={image} alt="avatar" />} />
+      {/* <img className={classes.card__avatar} src={image} alt="avatar" /> */}
+      </div>
     </article>
   );
 };

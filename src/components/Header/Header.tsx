@@ -1,27 +1,31 @@
 import React, { FC } from 'react';
 import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
+import { Avatar } from 'antd';
 import { useAppSelector } from '../../hooks';
 import store from '../../store/store';
 import { updateUserInStore } from '../../store/dataReducer';
+import classes from './Header.module.scss'
 
 const Header: FC = () => {
   const user = useAppSelector((state) => state.data.user);
   const [cookies, setCookie, removeCookie] = useCookies(['Token']);
 
-  if (user !== null) {
-    const { username } = user;
+  if (user !== null && user.image !== null) {
+    const { username, image } = user;
     return (
-      <nav>
-        <ul>
+      <nav className = {classes.header}>
+        <Link to="/">Realworld Blog</Link>
+
+        <ul className = {classes.header__nav}>
           <li>
-            <Link to="/">Realworld Blog</Link>
+            <Link className = {classes.header__nav_link} to="/new-article">Create article</Link>
           </li>
           <li>
-            <Link to="/new-article">Create article</Link>
+            <Link className = {classes.header__nav_link} to="/profile">{username}</Link>
           </li>
           <li>
-            <Link to="/profile">{username}</Link>
+          <Avatar className={classes.card__avatar} size={46} icon={ <img src={image} alt="avatar" />} />
           </li>
           <li>
             <button

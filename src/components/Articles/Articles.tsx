@@ -3,9 +3,11 @@ import { Pagination } from 'antd';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 import { useAppSelector } from '../../hooks';
 import { setArticlesToStore } from '../../store/dataReducer';
-import Card from '../Card/Card';
+import Card from '../Card';
 import blogApi from '../../api/BlogApiService';
 import store from '../../store/store';
+import classes from './Articles.module.scss';
+
 
 const Articles: FC = () => {
   const getArticles = async (pageNumber = 1) => {
@@ -39,8 +41,11 @@ const Articles: FC = () => {
 
   return (
     <>
+      <div className = {classes.articles}>
       {content}
+      </div>
       <Pagination
+        className = {classes.pagination}
         size="small"
         total={500}
         defaultPageSize={5}

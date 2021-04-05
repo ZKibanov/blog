@@ -4,7 +4,7 @@ import { updateUserInStore } from './store/dataReducer';
 export const manageUserToStore = (
   username: string,
   email: string,
-  image: string | undefined = undefined
+  image: string | null = null
 ) => {
   store.dispatch(updateUserInStore({ username, email, image }));
 };

@@ -38,9 +38,9 @@ const SignInForm: FC = () => {
 
       //   if (!response.status) {console.log(response.status)}
       if (response.user) {
-        const { username, email, token, id } = response.user;
+        const { username, email, token,image, id } = response.user;
         setCookie('Authorization', token, { secure: true });
-        manageUserToStore(username, email);
+        manageUserToStore(username, email, image);
         history.push('/articles');
       }
     });

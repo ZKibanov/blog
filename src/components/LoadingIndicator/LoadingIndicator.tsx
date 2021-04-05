@@ -1,16 +1,18 @@
 import React from 'react';
-import { Spin } from 'antd';
+import { AutoComplete, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
 const LoadingIndicator = () => {
   const antIcon = (
     <LoadingOutlined
-      style={{ ...{ color: 'PowderBlue', fontSize: 44 } }}
+      style={{ ...{ color: 'PowderBlue', fontSize: 144 } }}
       spin
     />
   );
 
-  return <Spin indicator={antIcon} />;
+  const spinStyle = { marginTop:"300px" }
+
+  return <Spin indicator={antIcon} style={spinStyle}/>;
 };
 
 export default LoadingIndicator;
