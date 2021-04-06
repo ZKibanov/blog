@@ -17,12 +17,15 @@ const Card: FC<Article> = (props: Article) => {
     favoritesCount,
   } = props;
   const { username, image } = author;
+
+  const tags = tagList?.map(tag => <span className={classes.card__tag} key ={tag+slug}>{tag}</span>)
   return (
     <article className = {classes.card}>
       <div className = {classes.card__main}>
         <Link className={classes.card__link} to={`/articles/:${slug}`}>{title}</Link>
         <button type="button" className={classes["card__favourite-button"]}>like</button>
         <span className={classes["card__favourite-count"]}>{favoritesCount}</span>
+        <div>{tags}</div>
         <ReactMarkdown className={classes.card__preview}>{description}</ReactMarkdown>
       </div>
       <div className={classes.card__info}>
@@ -31,7 +34,6 @@ const Card: FC<Article> = (props: Article) => {
       <span className={classes.card__created}>{format(new Date(createdAt), 'MMMMMMM dd, yyyy')}</span>
       </div>
       <Avatar className={classes.card__avatar} size={46} icon={ <img src={image} alt="avatar" />} />
-      {/* <img className={classes.card__avatar} src={image} alt="avatar" /> */}
       </div>
     </article>
   );
