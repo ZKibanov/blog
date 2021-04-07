@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import Markdown from 'react-markdown';
 import { useAppSelector } from '../../hooks';
+import Card from '../Card/Card';
+import classes from './SingleArticle.module.scss';
 
 interface Slug {
   slug: string;
@@ -37,13 +39,14 @@ const SingleArticle: FC<Slug> = (props) => {
     };
   }
 
-  const { body, title } = articleContent;
+  const { body } = articleContent;
   return (
-    <article>
-      <h4>{title}</h4>
-      <div>
-        <Markdown>{body}</Markdown>
+    <article className={classes.article}>
+      <div className={classes.article__header}>
+        <Card {...articleContent} />
+        <div className={classes.article__header_filter} />
       </div>
+      <Markdown className={classes.article__main}>{body}</Markdown>
     </article>
   );
 };

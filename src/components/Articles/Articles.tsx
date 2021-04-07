@@ -8,7 +8,6 @@ import blogApi from '../../api/BlogApiService';
 import store from '../../store/store';
 import classes from './Articles.module.scss';
 
-
 const Articles: FC = () => {
   const getArticles = async (pageNumber = 1) => {
     const page = `?offset=${(pageNumber - 1) * 5}`;
@@ -29,7 +28,11 @@ const Articles: FC = () => {
   const articlesObject = useAppSelector((state) => state.data.articles);
   const articlesArray = articlesObject.map((article) => {
     const { ...props } = article;
-    return <Card key={article.slug} {...props} />;
+    return (
+      <div key={article.slug} className={classes.article}>
+        <Card {...props} />
+      </div>
+    );
   });
 
   const isLoading = useAppSelector((state) => state.services.isLoading);
@@ -41,11 +44,9 @@ const Articles: FC = () => {
 
   return (
     <>
-      <div className = {classes.articles}>
-      {content}
-      </div>
+      <div className={classes.articles}>{content}</div>
       <Pagination
-        className = {classes.pagination}
+        className={classes.pagination}
         size="small"
         total={500}
         defaultPageSize={5}

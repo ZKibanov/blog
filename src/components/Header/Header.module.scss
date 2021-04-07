@@ -1,23 +1,23 @@
-$background-color-base: #FFFFFF;
+$background-color-base: #ffffff;
 
-.header{
-    background-color: $background-color-base;
-    padding:0 22px;
-    justify-content: space-between;
-    align-items: center;
-    display: flex;
-    height: 80px;
-    text-align: center;
+.header {
+  background-color: $background-color-base;
+  padding: 0 22px;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  height: 80px;
+  text-align: center;
 }
 
-.header__nav{
-    display: flex;
+.header__nav {
+  display: flex;
 }
 
-.header__nav_item{
-    list-style: none;
+.header__nav_item {
+  list-style: none;
 }
 
 .header__nav_link {
-    vertical-align: baseline;
+  vertical-align: baseline;
 }

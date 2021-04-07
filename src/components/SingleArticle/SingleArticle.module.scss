@@ -1,0 +1,26 @@
+$info-color: #1890ff;
+$background-color-base: #ffffff;
+
+.article {
+  position: relative;
+  margin: 24px auto 0 auto;
+  width: 941px;
+  height: 860px;
+  background-color: $background-color-base;
+  filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15));
+}
+
+.article__header_filter {
+  top: 40px;
+  position: absolute;
+  width: 682px;
+  height: 60px;
+  z-index: 2;
+  background-color: #fff;
+  opacity: 0.5;
+}
+
+.article__main {
+  margin-top: -24px;
+  padding: 0 42px 0 19px;
+}

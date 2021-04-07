@@ -10,9 +10,9 @@ const LoadingIndicator = () => {
     />
   );
 
-  const spinStyle = { marginTop:"300px" }
+  const spinStyle = { marginTop: '300px' };
 
-  return <Spin indicator={antIcon} style={spinStyle}/>;
+  return <Spin indicator={antIcon} style={spinStyle} />;
 };
 
 export default LoadingIndicator;

@@ -21,7 +21,7 @@ const App: FC = () => {
       BlogApi('user', 'get', undefined).then((response) => {
         if (response.user) {
           const { username, email, image } = response.user;
-          manageUserToStore(username, email,image);
+          manageUserToStore(username, email, image);
         }
       });
     }
