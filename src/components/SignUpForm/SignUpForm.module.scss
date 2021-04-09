@@ -29,6 +29,13 @@ $info-color: #1890ff;
   text-align: center;
 }
 
+.line{
+margin:21px 0 0 0;
+    width: 320px;
+height: 0px;
+border: 1px solid #E8E8E8;
+}
+
 .form__label {
   //styleName: Regular / 14px | 22px;
   font-family: 'Roboto';
@@ -54,15 +61,26 @@ $info-color: #1890ff;
   line-height: 24px;
 }
 
-.form__description {
-  margin-top: 8px;
-  font-family: 'Roboto';
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: 0em;
-  text-align: center;
+.form__label-agreement {
+    width:254px;
+    //styleName: Regular / 14px | 22px;
+font-family: Roboto;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 22px;
+letter-spacing: 0em;
+text-align: left;
+ margin-top: 8px; 
+ margin-left: 26px;
+ position: relative;
+}
+
+.form__agreement-checkbox{
+    position: absolute;
+    left:-24px;
+    width: 16px;
+    height: 16px;
 }
 
 .form__submit-button {

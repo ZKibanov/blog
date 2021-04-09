@@ -51,6 +51,7 @@ export default function SignUpForm() {
         <label className={classes.form__label} htmlFor="signup__username">
           Username
           <input
+          placeholder="Username"
             className={classes.form__input}
             id="signup__username"
             name="signupUsername"
@@ -60,6 +61,7 @@ export default function SignUpForm() {
         <label className={classes.form__label} htmlFor="signup__email">
           Email address
           <input
+          placeholder="Email address"
             className={classes.form__input}
             id="signup__email"
             type="email"
@@ -70,6 +72,7 @@ export default function SignUpForm() {
         <label className={classes.form__label} htmlFor="signup__password">
           Password
           <input
+          placeholder="Password"
             className={classes.form__input}
             type="password"
             id="signup__password"
@@ -83,6 +86,7 @@ export default function SignUpForm() {
         >
           Repeat Password
           <input
+          placeholder="Repeat Password"
             className={classes.form__input}
             type="password"
             id="signin__repeat_password"
@@ -90,10 +94,11 @@ export default function SignUpForm() {
             ref={register({ required: true })}
           />
         </label>
-        <label className={classes.form__label} htmlFor="signup__personal_data">
+        <hr className = {classes.line}/>
+        <label className={classes["form__label-agreement"]} htmlFor="signup__personal_data">
           I agree to the processing of my personal information
           <input
-            className={classes.form__description}
+            className={classes["form__agreement-checkbox"]}
             type="checkbox"
             id="signup__personal_data"
             name="signupPersonalData"
