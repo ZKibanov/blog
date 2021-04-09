@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import BlogApi from '../../api/BlogApiService';
 import { useAppSelector } from '../../hooks';
 import { manageUserToStore } from '../../utils';
+import classes from './SignInForm.module.scss';
 
 type Inputs = {
   loginPassword: string;
@@ -50,39 +51,48 @@ const SignInForm: FC = () => {
 
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor="login__email">
-        Email address
-        <input
-          type="email"
-          name="loginEmail"
-          id="login__email"
-          ref={register({ required: true })}
-        />
-      </label>
-      <label htmlFor="login__password">
-        Password
-        <input
-          name="loginPassword"
-          type="password"
-          id="login__password"
-          ref={register({ required: true })}
-        />
-      </label>
-      <button type="submit" disabled={isLoading}>
-        Login
-      </button>
-      <p>
-        Don't have an account? <Link to="/sign-up">Sign Up.</Link>
-      </p>
-      {/* register your input into the hook by invoking the "register" function */}
-      {/* <input name="example" defaultValue="test" ref={register} /> */}
+    <div className={classes.form_wrapper}>
+      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+        <h4 className={classes.form__header}>Sign In</h4>
+        <label className={classes.form__label} htmlFor="login__email">
+          Email address
+          <input
+            className={classes.form__input}
+            type="email"
+            name="loginEmail"
+            id="login__email"
+            ref={register({ required: true })}
+          />
+        </label>
+        <label className={classes.form__label} htmlFor="login__password">
+          Password
+          <input
+            className={classes.form__input}
+            name="loginPassword"
+            type="password"
+            id="login__password"
+            ref={register({ required: true })}
+          />
+        </label>
+        <button
+          type="submit"
+          disabled={isLoading}
+          className={classes['form__submit-button']}
+        >
+          Login
+        </button>
+        <p className={classes.form__description}>
+          Don't have an account? <Link to="/sign-up">Sign Up.</Link>
+        </p>
+        {/* register your input into the hook by invoking the "register" function */}
+        {/* <input name="example" defaultValue="test" ref={register} /> */}
 
-      {/* include validation with required or other standard HTML validation rules */}
-      {/* <input name="exampleRequired" ref={register({ required: true })} /> */}
-      {/* errors will return when field validation fails  */}
-      {errors.loginPassword && <span>This field is required</span>}
-    </form>
+        {/* include validation with required or other standard HTML validation rules */}
+        {/* <input name="exampleRequired" ref={register({ required: true })} /> */}
+        {/* errors will return when field validation fails  */}
+        {errors.loginPassword && <span>This field is required</span>}
+      </form>
+    </div>
   );
 };
 

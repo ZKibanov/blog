@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import BlogApi from '../../api/BlogApiService';
 import { updateUserInStore } from '../../store/dataReducer';
 import store from '../../store/store';
+import classes from './SignUpForm.module.scss';
 
 type Inputs = {
   example: string;
@@ -44,54 +45,67 @@ export default function SignUpForm() {
   console.log(watch('signupPersonalData'));
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor="signup__username">
-        Username
-        <input
-          id="signup__username"
-          name="signupUsername"
-          ref={register({ required: true })}
-        />
-      </label>
-      <label htmlFor="signup__email">
-        Email address
-        <input
-          id="signup__email"
-          type="email"
-          name="signupEmail"
-          ref={register({ required: true })}
-        />
-      </label>
-      <label htmlFor="signup__password">
-        Password
-        <input
-          type="password"
-          id="signup__password"
-          name="signupPassword"
-          ref={register({ required: true })}
-        />
-      </label>
-      <label htmlFor="signup__repeat_password">
-        Repeat Password
-        <input
-          type="password"
-          id="signin__repeat_password"
-          name="signupRepeatPassword"
-          ref={register({ required: true })}
-        />
-      </label>
-      <label htmlFor="signup__personal_data">
-        I agree to the processing of my personal information
-        <input
-          type="checkbox"
-          id="signup__personal_data"
-          name="signupPersonalData"
-          ref={register({ required: true })}
-        />
-      </label>
-      <button type="submit">Create</button>
-      {errors.signupPassword && <span>This field is required</span>}
-    </form>
+    <div className={classes.form_wrapper}>
+      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+        <h4 className={classes.form__header}>Create new account</h4>
+        <label className={classes.form__label} htmlFor="signup__username">
+          Username
+          <input
+            className={classes.form__input}
+            id="signup__username"
+            name="signupUsername"
+            ref={register({ required: true })}
+          />
+        </label>
+        <label className={classes.form__label} htmlFor="signup__email">
+          Email address
+          <input
+            className={classes.form__input}
+            id="signup__email"
+            type="email"
+            name="signupEmail"
+            ref={register({ required: true })}
+          />
+        </label>
+        <label className={classes.form__label} htmlFor="signup__password">
+          Password
+          <input
+            className={classes.form__input}
+            type="password"
+            id="signup__password"
+            name="signupPassword"
+            ref={register({ required: true })}
+          />
+        </label>
+        <label
+          className={classes.form__label}
+          htmlFor="signup__repeat_password"
+        >
+          Repeat Password
+          <input
+            className={classes.form__input}
+            type="password"
+            id="signin__repeat_password"
+            name="signupRepeatPassword"
+            ref={register({ required: true })}
+          />
+        </label>
+        <label className={classes.form__label} htmlFor="signup__personal_data">
+          I agree to the processing of my personal information
+          <input
+            className={classes.form__description}
+            type="checkbox"
+            id="signup__personal_data"
+            name="signupPersonalData"
+            ref={register({ required: true })}
+          />
+        </label>
+        <button className={classes['form__submit-button']} type="submit">
+          Create
+        </button>
+        {errors.signupPassword && <span>This field is required</span>}
+      </form>
+    </div>
   );
 }
 // Валидный ответ от сервера на успешную регистрацию
