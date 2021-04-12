@@ -17,7 +17,12 @@ const SignInForm: FC = () => {
   const history = useHistory();
   const [cookies, setCookie, removeCookie] = useCookies(['Token']);
 
-  const { register, handleSubmit, watch, errors } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>();
   const onSubmit = (data: Inputs) => {
     const { loginEmail, loginPassword } = data;
 
@@ -59,19 +64,17 @@ const SignInForm: FC = () => {
           <input
             className={classes.form__input}
             type="email"
-            name="loginEmail"
             id="login__email"
-            ref={register({ required: true })}
+            {...register('loginEmail', { required: true })}
           />
         </label>
         <label className={classes.form__label} htmlFor="login__password">
           Password
           <input
             className={classes.form__input}
-            name="loginPassword"
             type="password"
             id="login__password"
-            ref={register({ required: true })}
+            {...register('loginPassword', { required: true })}
           />
         </label>
         <button

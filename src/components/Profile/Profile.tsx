@@ -12,7 +12,12 @@ type Inputs = {
 };
 
 export default function Profile() {
-  const { register, handleSubmit, watch, errors } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>();
   const onSubmit = (data: Inputs) => {
     const {
       newUsername: username,
@@ -47,7 +52,7 @@ export default function Profile() {
     // console.log(JSON.stringify(user));
   };
 
-  console.log(watch('signupUsername')); // watch input value by passing the name of it
+  console.log(watch('newUsername')); // watch input value by passing the name of it
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -55,8 +60,7 @@ export default function Profile() {
         Username
         <input
           id="new__username"
-          name="newUsername"
-          ref={register({ required: false })}
+          {...register('newUsername', { required: false })}
         />
       </label>
       <label htmlFor="signup__email">
@@ -64,8 +68,7 @@ export default function Profile() {
         <input
           id="signup__email"
           type="email"
-          name="signupEmail"
-          ref={register({ required: false })}
+          {...register('signupEmail', { required: false })}
         />
       </label>
       <label htmlFor="new__password">
@@ -73,8 +76,7 @@ export default function Profile() {
         <input
           type="password"
           id="new__password"
-          name="newPassword"
-          ref={register({ required: false })}
+          {...register('newPassword', { required: false })}
         />
       </label>
       <label htmlFor="avatar__image__url">
@@ -82,8 +84,7 @@ export default function Profile() {
         <input
           type="text"
           id="avatar__image__url"
-          name="avatarImageUrl"
-          ref={register({ required: false })}
+          {...register('avatarImageUrl', { required: false })}
         />
       </label>
 

@@ -16,17 +16,17 @@ const Header: FC = () => {
     if (user) {
       const { username } = user;
       let { image } = user;
-      if (image === null)
+      if (!image)
         image = 'https://static.productionready.io/images/smiley-cyrus.jpg';
       return (
         <ul className={classes.header__nav}>
           <li className={classes.header__nav_item}>
-            <Link className={classes.header__nav_link} to="/new-article">
+            <Link className={classes.header__nav_link_small} to="/new-article">
               Create article
             </Link>
           </li>
           <li className={classes.header__nav_item}>
-            <Link className={classes.header__nav_link} to="/profile">
+            <Link className={classes.header__link_flat} to="/profile">
               {username}
             </Link>
           </li>
@@ -37,8 +37,9 @@ const Header: FC = () => {
               icon={<img src={image} alt="avatar" />}
             />
           </li>
-          <li>
+          <li className={classes.header__nav_item}>
             <button
+              className={classes.header__nav_button}
               type="button"
               onClick={() => {
                 store.dispatch(updateUserInStore(null));
@@ -52,15 +53,16 @@ const Header: FC = () => {
       );
     }
     return (
-      <ul>
+      <ul className={classes.header__nav}>
         <li className={classes.header__nav_item}>
           <Link className={classes.header__nav_link} to="/sign-in">
-            Sign In
+            Sign In{' '}
           </Link>
         </li>
         <li className={classes.header__nav_item}>
           <Link className={classes.header__nav_link} to="/sign-up">
-            Sign Up
+            {' '}
+            Sign Up{' '}
           </Link>
         </li>
       </ul>
@@ -71,7 +73,9 @@ const Header: FC = () => {
 
   return (
     <nav className={classes.header}>
-      <Link to="/">Realworld Blog</Link>
+      <Link className={classes.header__link_flat} to="/">
+        Realworld Blog
+      </Link>
       {content}
     </nav>
   );

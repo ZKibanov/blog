@@ -15,7 +15,12 @@ const NewArticle: FC = () => {
   const isLoading = useAppSelector((state) => state.services.isLoading);
   // const history = useHistory();
 
-  const { register, handleSubmit, watch, errors } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>();
   const onSubmit = (data: Inputs) => {
     const {
       newArticleTitle,
@@ -50,8 +55,6 @@ const NewArticle: FC = () => {
     });
   };
 
-  console.log(watch('loginPassword')); // watch input value by passing the name of it
-
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -60,26 +63,23 @@ const NewArticle: FC = () => {
         Title
         <input
           type="text"
-          name="newArticleTitle"
           id="new__article__title"
-          ref={register({ required: true })}
+          {...register('newArticleTitle', { required: true })}
         />
       </label>
       <label htmlFor="new__article__description">
         Short description
         <input
           type="text"
-          name="newArticleDescription"
           id="new__article__description"
-          ref={register({ required: true })}
+          {...register('newArticleDescription', { required: true })}
         />
       </label>
       <label htmlFor="new__article__text">
         Text
         <textarea
-          name="newArticleText"
           id="new__article__text"
-          ref={register({ required: true })}
+          {...register('newArticleText', { required: true })}
         />
       </label>
       <label htmlFor="new__article__tags">
