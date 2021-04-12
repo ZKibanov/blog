@@ -32,24 +32,26 @@ const SignInForm: FC = () => {
         password: loginPassword,
       },
     };
-    BlogApi('users/login', 'POST', userInfo).then((response) => {
-      if (response.status === 422) {
-        const errorDetails = response.data.errors;
-        for (const property in errorDetails) {
-          if (Object.prototype.hasOwnProperty.call(errorDetails, property)) {
-            console.log(`${property}: ${errorDetails[property]}`);
-          }
-        }
-      }
 
-      //   if (!response.status) {console.log(response.status)}
-      if (response.user) {
-        const { username, email, token, image, id } = response.user;
-        setCookie('Authorization', token, { secure: true });
-        manageUserToStore(username, email, image);
-        history.push('/articles');
-      }
-    });
+    console.log(userInfo);
+    // BlogApi('users/login', 'POST', userInfo).then((response) => {
+    //   if (response.status === 422) {
+    //     const errorDetails = response.data.errors;
+    //     for (const property in errorDetails) {
+    //       if (Object.prototype.hasOwnProperty.call(errorDetails, property)) {
+    //         console.log(`${property}: ${errorDetails[property]}`);
+    //       }
+    //     }
+    //   }
+
+    //   //   if (!response.status) {console.log(response.status)}
+    //   if (response.user) {
+    //     const { username, email, token, image, id } = response.user;
+    //     setCookie('Authorization', token, { secure: true });
+    //     manageUserToStore(username, email, image);
+    //     history.push('/articles');
+    //   }
+    // });
   };
 
   console.log(watch('loginPassword')); // watch input value by passing the name of it

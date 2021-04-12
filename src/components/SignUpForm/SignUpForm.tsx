@@ -1,54 +1,36 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import BlogApi from '../../api/BlogApiService';
 import { updateUserInStore } from '../../store/dataReducer';
 import store from '../../store/store';
 import classes from './SignUpForm.module.scss';
 
-type Inputs = {
-  example: string;
-  exampleRequired: string;
+interface IFormInputs {
   signupPassword: string;
   signupEmail: string;
   signupUsername: string;
   signupRepeatPassword: string;
   signupPersonalData: boolean;
-};
+}
+
+const schema = yup.object().shape({
+  signupPassword: yup.string().required(),
+  signupEmail: yup.string().required(),
+  signupUsername: yup.string().required(),
+});
 
 export default function SignUpForm() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<Inputs>();
-  const onSubmit = (data: Inputs) => {
-    const { signupUsername, signupPassword, signupEmail } = data;
-    const userInfo = {
-      user: {
-        username: signupUsername,
-        email: signupEmail,
-        password: signupPassword,
-      },
-    };
-    console.log(userInfo);
-    // BlogApi('users', 'POST', userInfo).then((response) => {
-    //   const errorDetails = response.data.errors;
-    //   if (response.status === 422) {
-    //     for (const property in errorDetails) {
-    //       if (Object.prototype.hasOwnProperty.call(errorDetails, property)) {
-    //         console.log(`${property}: ${errorDetails[property]}`);
-    //       }
-    //     }
-    //     // do smthing
-    //   }
-    //   store.dispatch(updateUserInStore(response.user));
-    // });
-    // console.log(JSON.stringify(user));
-  };
+  } = useForm<IFormInputs>({
+    resolver: yupResolver(schema),
+  });
 
-  console.log(watch('signupUsername')); // watch input value by passing the name of it
-  console.log(watch('signupPersonalData'));
+  const onSubmit = (data: IFormInputs) => console.log(data);
 
   return (
     <div className={classes.form_wrapper}>
@@ -60,8 +42,11 @@ export default function SignUpForm() {
             placeholder="Username"
             className={classes.form__input}
             id="signup__username"
-            {...register('signupUsername', { required: true })}
+            {...register('signupUsername')}
           />
+          <p className={classes.form__error}>
+            {errors.signupUsername?.message}
+          </p>
         </label>
         <label className={classes.form__label} htmlFor="signup__email">
           Email address
@@ -70,8 +55,9 @@ export default function SignUpForm() {
             className={classes.form__input}
             id="signup__email"
             type="email"
-            {...register('signupEmail', { required: true })}
+            {...register('signupEmail')}
           />
+          <p className={classes.form__error}>{errors.signupEmail?.message}</p>
         </label>
         <label className={classes.form__label} htmlFor="signup__password">
           Password
@@ -82,6 +68,9 @@ export default function SignUpForm() {
             id="signup__password"
             {...register('signupPassword', { required: true })}
           />
+          <p className={classes.form__error}>
+            {errors.signupPassword?.message}
+          </p>
         </label>
         <label
           className={classes.form__label}
@@ -95,6 +84,9 @@ export default function SignUpForm() {
             id="signin__repeat_password"
             {...register('signupRepeatPassword', { required: true })}
           />
+          <p className={classes.form__error}>
+            {errors.signupRepeatPassword?.message}
+          </p>
         </label>
         <hr className={classes.line} />
         <label
@@ -112,8 +104,53 @@ export default function SignUpForm() {
         <button className={classes['form__submit-button']} type="submit">
           Create
         </button>
-        {errors.signupPassword && <span>This field is required</span>}
       </form>
     </div>
   );
 }
+
+// const schema = yup.object().shape({
+//   loginPassword: yup.string().required(),
+//   loginEmail: yup.string().required(),
+// });
+
+// export default function SignUpForm() {
+//   const {
+//     register,
+//     handleSubmit,
+//     watch,
+//     formState: { errors },
+//   } = useForm<Inputs>({resolver: yupResolver(schema)});
+//   const onSubmit = (data: Inputs) => {
+//     console.log(data)
+//     const { signupUsername, signupPassword, signupEmail } = data;
+//     const userInfo = {
+//       user: {
+//         username: signupUsername,
+//         email: signupEmail,
+//         password: signupPassword,
+//       },
+//     };
+//     console.log(userInfo);
+//     // BlogApi('users', 'POST', userInfo).then((response) => {
+//     //   const errorDetails = response.data.errors;
+//     //   if (response.status === 422) {
+//     //     for (const property in errorDetails) {
+//     //       if (Object.prototype.hasOwnProperty.call(errorDetails, property)) {
+//     //         console.log(`${property}: ${errorDetails[property]}`);
+//     //       }
+//     //     }
+//     //     // do smthing
+//     //   }
+//     //   store.dispatch(updateUserInStore(response.user));
+//     // });
+//     // console.log(JSON.stringify(user));
+//   };
+
+//   console.log(watch('signupUsername')); // watch input value by passing the name of it
+//   console.log(watch('signupPersonalData'));
+
+//   return (
+
+//   );
+// }
