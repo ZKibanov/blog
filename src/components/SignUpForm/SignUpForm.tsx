@@ -8,17 +8,19 @@ import store from '../../store/store';
 import classes from './SignUpForm.module.scss';
 
 interface IFormInputs {
-  signupPassword: string;
-  signupEmail: string;
-  signupUsername: string;
-  signupRepeatPassword: string;
-  signupPersonalData: boolean;
+  Password: string;
+  Email: string;
+  Username: string;
+  RepeatPassword: string;
+  PersonalData: boolean;
 }
 
 const schema = yup.object().shape({
-  signupPassword: yup.string().required(),
-  signupEmail: yup.string().required(),
-  signupUsername: yup.string().required(),
+  Username: yup.string().min(3).max(20).required(),
+  Password: yup.string().min(8).max(40).required(),
+  Email: yup.string().email(),
+  RepeatPassword: yup.string().oneOf([yup.ref('Password'), null], 'Passwords must match').required(),
+  PersonalData:yup.boolean().oneOf([true],'For registration need your confirmation')
 });
 
 export default function SignUpForm() {
@@ -30,7 +32,30 @@ export default function SignUpForm() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: IFormInputs) => console.log(data);
+  const onSubmit = (data: IFormInputs) => {
+    const { Username, Password, Email } = data;
+    const userInfo = {
+      user: {
+        username: Username,
+        email: Email,
+        password: Password,
+      },
+    };
+    console.log(userInfo);
+    // BlogApi('users', 'POST', userInfo).then((response) => {
+    //   const errorDetails = response.data.errors;
+    //   if (response.status === 422) {
+    //     for (const property in errorDetails) {
+    //       if (Object.prototype.hasOwnProperty.call(errorDetails, property)) {
+    //         console.log(`${property}: ${errorDetails[property]}`);
+    //       }
+    //     }
+    //     // do smthing
+    //   }
+    //   store.dispatch(updateUserInStore(response.user));
+    // });
+    // console.log(JSON.stringify(user));
+  }
 
   return (
     <div className={classes.form_wrapper}>
@@ -42,10 +67,10 @@ export default function SignUpForm() {
             placeholder="Username"
             className={classes.form__input}
             id="signup__username"
-            {...register('signupUsername')}
+            {...register('Username')}
           />
           <p className={classes.form__error}>
-            {errors.signupUsername?.message}
+            {errors.Username?.message}
           </p>
         </label>
         <label className={classes.form__label} htmlFor="signup__email">
@@ -54,10 +79,9 @@ export default function SignUpForm() {
             placeholder="Email address"
             className={classes.form__input}
             id="signup__email"
-            type="email"
-            {...register('signupEmail')}
+            {...register('Email')}
           />
-          <p className={classes.form__error}>{errors.signupEmail?.message}</p>
+          <p className={classes.form__error}>{errors.Email?.message}</p>
         </label>
         <label className={classes.form__label} htmlFor="signup__password">
           Password
@@ -66,10 +90,10 @@ export default function SignUpForm() {
             className={classes.form__input}
             type="password"
             id="signup__password"
-            {...register('signupPassword', { required: true })}
+            {...register('Password', { required: true })}
           />
           <p className={classes.form__error}>
-            {errors.signupPassword?.message}
+            {errors.Password?.message}
           </p>
         </label>
         <label
@@ -82,10 +106,10 @@ export default function SignUpForm() {
             className={classes.form__input}
             type="password"
             id="signin__repeat_password"
-            {...register('signupRepeatPassword', { required: true })}
+            {...register('RepeatPassword', { required: true })}
           />
           <p className={classes.form__error}>
-            {errors.signupRepeatPassword?.message}
+            {errors.RepeatPassword?.message}
           </p>
         </label>
         <hr className={classes.line} />
@@ -98,8 +122,11 @@ export default function SignUpForm() {
             className={classes['form__agreement-checkbox']}
             type="checkbox"
             id="signup__personal_data"
-            {...register('signupPersonalData', { required: true })}
+            {...register('PersonalData', { required: true })}
           />
+           <p className={classes.form__error}>
+            {errors.PersonalData?.message}
+          </p>
         </label>
         <button className={classes['form__submit-button']} type="submit">
           Create
@@ -122,29 +149,7 @@ export default function SignUpForm() {
 //     formState: { errors },
 //   } = useForm<Inputs>({resolver: yupResolver(schema)});
 //   const onSubmit = (data: Inputs) => {
-//     console.log(data)
-//     const { signupUsername, signupPassword, signupEmail } = data;
-//     const userInfo = {
-//       user: {
-//         username: signupUsername,
-//         email: signupEmail,
-//         password: signupPassword,
-//       },
-//     };
-//     console.log(userInfo);
-//     // BlogApi('users', 'POST', userInfo).then((response) => {
-//     //   const errorDetails = response.data.errors;
-//     //   if (response.status === 422) {
-//     //     for (const property in errorDetails) {
-//     //       if (Object.prototype.hasOwnProperty.call(errorDetails, property)) {
-//     //         console.log(`${property}: ${errorDetails[property]}`);
-//     //       }
-//     //     }
-//     //     // do smthing
-//     //   }
-//     //   store.dispatch(updateUserInStore(response.user));
-//     // });
-//     // console.log(JSON.stringify(user));
+   
 //   };
 
 //   console.log(watch('signupUsername')); // watch input value by passing the name of it
