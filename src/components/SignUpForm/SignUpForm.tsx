@@ -19,8 +19,13 @@ const schema = yup.object().shape({
   Username: yup.string().min(3).max(20).required(),
   Password: yup.string().min(8).max(40).required(),
   Email: yup.string().email(),
-  RepeatPassword: yup.string().oneOf([yup.ref('Password'), null], 'Passwords must match').required(),
-  PersonalData:yup.boolean().oneOf([true],'For registration need your confirmation')
+  RepeatPassword: yup
+    .string()
+    .oneOf([yup.ref('Password'), null], 'Passwords must match')
+    .required(),
+  PersonalData: yup
+    .boolean()
+    .oneOf([true], 'For registration need your confirmation'),
 });
 
 export default function SignUpForm() {
@@ -55,7 +60,7 @@ export default function SignUpForm() {
     //   store.dispatch(updateUserInStore(response.user));
     // });
     // console.log(JSON.stringify(user));
-  }
+  };
 
   return (
     <div className={classes.form_wrapper}>
@@ -69,9 +74,7 @@ export default function SignUpForm() {
             id="signup__username"
             {...register('Username')}
           />
-          <p className={classes.form__error}>
-            {errors.Username?.message}
-          </p>
+          <p className={classes.form__error}>{errors.Username?.message}</p>
         </label>
         <label className={classes.form__label} htmlFor="signup__email">
           Email address
@@ -92,9 +95,7 @@ export default function SignUpForm() {
             id="signup__password"
             {...register('Password', { required: true })}
           />
-          <p className={classes.form__error}>
-            {errors.Password?.message}
-          </p>
+          <p className={classes.form__error}>{errors.Password?.message}</p>
         </label>
         <label
           className={classes.form__label}
@@ -124,9 +125,7 @@ export default function SignUpForm() {
             id="signup__personal_data"
             {...register('PersonalData', { required: true })}
           />
-           <p className={classes.form__error}>
-            {errors.PersonalData?.message}
-          </p>
+          <p className={classes.form__error}>{errors.PersonalData?.message}</p>
         </label>
         <button className={classes['form__submit-button']} type="submit">
           Create
@@ -149,7 +148,7 @@ export default function SignUpForm() {
 //     formState: { errors },
 //   } = useForm<Inputs>({resolver: yupResolver(schema)});
 //   const onSubmit = (data: Inputs) => {
-   
+
 //   };
 
 //   console.log(watch('signupUsername')); // watch input value by passing the name of it
