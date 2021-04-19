@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Article } from '../../types';
 import { useAppSelector } from '../../hooks';
 import BlogApi from '../../api/BlogApiService';
+import classes from './ArticleForm.module.scss'
 
 type Inputs = {
   newArticleTitle: string;
@@ -57,53 +58,61 @@ const NewArticle: FC = () => {
 
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <h2>Create new article</h2>
-      <label htmlFor="new__article__title">
+    <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+          <div className={classes["form__content--wrapper"]}>
+      <h2 className={classes.form__header}>Create new article</h2>
+      <label className={classes.form__label} htmlFor="new__article__title">
         Title
         <input
+          className={classes.form__input}
           type="text"
           id="new__article__title"
           {...register('newArticleTitle', { required: true })}
         />
       </label>
-      <label htmlFor="new__article__description">
+      <label className={classes.form__label} htmlFor="new__article__description">
         Short description
         <input
+          className={classes.form__input}
           type="text"
           id="new__article__description"
           {...register('newArticleDescription', { required: true })}
         />
       </label>
-      <label htmlFor="new__article__text">
+      <label className={classes.form__label} htmlFor="new__article__text">
         Text
         <textarea
+        className={classes.form__textarea}
           id="new__article__text"
           {...register('newArticleText', { required: true })}
         />
       </label>
-      <label htmlFor="new__article__tags">
+      <label className={classes.form__label} htmlFor="new__article__tags">
         Tags
+        <br/>
         <input
+          className={classes["form__input--short"]}
+          disabled
           type="text"
           name="newArticleTags"
           id="new__article__tags"
           // ref={register({ required: true })}
         />
-        <button type="button">Delete</button>
+        <button className={classes["article__form_tag-button"]} type="button">Delete</button>
       </label>
-      <label htmlFor="new__tag">
-        Tags
+      <br/>
+      <label className={classes.form__label} htmlFor="new__tag">
         <input
+          className={classes["form__input--short"]}
           type="text"
           name="newTag"
           id="new__tag"
           // ref={register({ required: true })}
         />
-        <button type="button">Delete</button>
-        <button type="button">Add tag</button>
+        <button className={classes["article__form_tag-button"]} type="button">Delete</button>
+        <button className={classes["article__form_tag-button"]} type="button">Add tag</button>
       </label>
-      <button type="submit" disabled={isLoading}>
+      <button className={classes["form__submit-button"]} type="submit" disabled={isLoading}>
         Send
       </button>
       {/* register your input into the hook by invoking the "register" function */}
@@ -113,6 +122,7 @@ const NewArticle: FC = () => {
       {/* <input name="exampleRequired" ref={register({ required: true })} /> */}
       {/* errors will return when field validation fails  */}
       {errors.newArticleTitle && <span>This field is required</span>}
+      </div>
     </form>
   );
 };

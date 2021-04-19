@@ -1,15 +1,15 @@
 $background-color-base: #ffffff;
 $info-color: #1890ff;
+$effects-color: #52c41a;
 
-.form {
+.form__content--wrapper {
   display: flex;
   flex-direction: column;
-  width: 384px;
-  height: 498px;
+  width: 938px;
+  height: 701px;
   background-color: $background-color-base;
   margin: 59px auto;
   border-radius: 6px;
-  padding-left: 32px;
   box-shadow: 0px 22px 106px rgba(0, 0, 0, 0.07),
     0px 9.19107px 44.2843px rgba(0, 0, 0, 0.0503198),
     0px 4.91399px 23.6765px rgba(0, 0, 0, 0.0417275),
@@ -17,7 +17,10 @@ $info-color: #1890ff;
     0px 1.46302px 7.04911px rgba(0, 0, 0, 0.0282725),
     0px 0.608796px 2.93329px rgba(0, 0, 0, 0.0196802);
   text-align: center;
+      padding-left: 32px;
+    padding-right:32px;
 }
+
 .form__header {
   margin-top: 48px;
   font-family: Roboto;
@@ -38,12 +41,13 @@ $info-color: #1890ff;
   line-height: 22px;
   letter-spacing: 0em;
   text-align: left;
-  margin-top: 12px;
+  margin-top:21px;
 }
+
 .form__input {
   padding: 8px 12px;
-  width: 320px;
-  height: 40px;
+  width:874px;
+  height:40px;
   background: none;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
@@ -53,6 +57,72 @@ $info-color: #1890ff;
   font-size: 16px;
   line-height: 24px;
 }
+
+.form__input {
+  padding: 8px 12px;
+  width:874px;
+  height:40px;
+  background: none;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.form__input--short {
+    padding: 8px 12px;
+    width:300px;
+    height:40px;
+    background: none;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  
+
+.form__input--wrapper{
+    margin-top:21px;
+}
+
+.form__textarea{
+    width:874px;
+    min-height: 168px;
+    border: 1px solid #D9D9D9;
+box-sizing: border-box;
+border-radius: 4px;
+}
+
+.article__form_tag-button {
+    margin-left: 27px;
+    box-sizing: border-box;
+   //styleName: Regular / 16 px | 24 px;
+font-family: Roboto;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: center;
+    color: black;
+    cursor: pointer;
+    height:40px;
+    width: 100px;
+    background-color: $background-color-base;
+    text-align: center;
+    vertical-align: bottom;
+    border: 1px solid $effects-color;
+    box-sizing: border-box;
+    border-radius: 5px;
+  }
+  
+
 
 .form__submit-button {
   background: none;

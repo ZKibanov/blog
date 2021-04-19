@@ -4,7 +4,7 @@ import { useCookies } from 'react-cookie';
 import BlogApi from '../../api/BlogApiService';
 import { manageUserToStore } from '../../utils';
 import Articles from '../Articles/Articles';
-import NewArticle from '../NewArticle/NewArticle';
+import ArticleForm from '../ArticleForm/ArticleForm';
 import Header from '../Header/Header';
 import SignInForm from '../SignInForm/SignInForm';
 import SignUpForm from '../SignUpForm/SignUpForm';
@@ -33,7 +33,7 @@ const App: FC = () => {
         <Route path="/sign-up" component={SignUpForm} />
         <Route path="/sign-in" component={SignInForm} />
         <Route path="/articles" exact component={Articles} />
-        <Route path="/new-article" component={NewArticle} />
+        <Route path="/new-article" component={ArticleForm} />
         <Route path="/profile" component={Profile} />
 
         <Route
