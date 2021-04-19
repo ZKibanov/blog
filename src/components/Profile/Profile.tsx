@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import BlogApi from '../../api/BlogApiService';
 import { updateUserInStore } from '../../store/dataReducer';
 import store from '../../store/store';
+import classes from './Profile.module.scss'
 
 type Inputs = {
   avatarImageUrl: string;
@@ -55,41 +56,51 @@ export default function Profile() {
   console.log(watch('newUsername')); // watch input value by passing the name of it
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor="new__username">
+    <div className={classes.form_wrapper}>
+    <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+    <h4 className={classes.form__header}>Edit profile</h4>
+      <label className={classes.form__label} htmlFor="new__username">
         Username
         <input
+                className={classes.form__input}
+
           id="new__username"
           {...register('newUsername', { required: false })}
         />
       </label>
-      <label htmlFor="signup__email">
+      <label className={classes.form__label} htmlFor="signup__email">
         Email address
         <input
+        className={classes.form__input}
           id="signup__email"
           type="email"
           {...register('signupEmail', { required: false })}
         />
       </label>
-      <label htmlFor="new__password">
+      <label className={classes.form__label} htmlFor="new__password">
         New password
         <input
+                className={classes.form__input}
+
           type="password"
           id="new__password"
           {...register('newPassword', { required: false })}
         />
       </label>
-      <label htmlFor="avatar__image__url">
+      <label className={classes.form__label} htmlFor="avatar__image__url">
         Avatar image(url)
         <input
+                className={classes.form__input}
+
           type="text"
           id="avatar__image__url"
           {...register('avatarImageUrl', { required: false })}
         />
       </label>
 
-      <button type="submit">Save</button>
+      <button className={classes["form__submit-button"]} type="submit">Save</button>
       {errors.newPassword && <span>This field is required</span>}
     </form>
+    </div>
   );
 }
