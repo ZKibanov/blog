@@ -1,6 +1,7 @@
 $background-color-base: #ffffff;
 $info-color: #1890ff;
 $effects-color: #52c41a;
+$button-reject-color: #f5222d;
 
 .form__content--wrapper {
   display: flex;
@@ -17,8 +18,8 @@ $effects-color: #52c41a;
     0px 1.46302px 7.04911px rgba(0, 0, 0, 0.0282725),
     0px 0.608796px 2.93329px rgba(0, 0, 0, 0.0196802);
   text-align: center;
-      padding-left: 32px;
-    padding-right:32px;
+  padding-left: 32px;
+  padding-right: 32px;
 }
 
 .form__header {
@@ -34,20 +35,20 @@ $effects-color: #52c41a;
 
 .form__label {
   //styleName: Regular / 14px | 22px;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 22px;
   letter-spacing: 0em;
   text-align: left;
-  margin-top:21px;
+  margin-top: 21px;
 }
 
 .form__input {
   padding: 8px 12px;
-  width:874px;
-  height:40px;
+  width: 874px;
+  height: 40px;
   background: none;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
@@ -60,8 +61,8 @@ $effects-color: #52c41a;
 
 .form__input {
   padding: 8px 12px;
-  width:874px;
-  height:40px;
+  width: 874px;
+  height: 40px;
   background: none;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
@@ -73,56 +74,75 @@ $effects-color: #52c41a;
 }
 
 .form__input--short {
-    padding: 8px 12px;
-    width:300px;
-    height:40px;
-    background: none;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 24px;
-  }
-  
-
-.form__input--wrapper{
-    margin-top:21px;
+  padding: 8px 12px;
+  width: 300px;
+  height: 40px;
+  background: none;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
 }
 
-.form__textarea{
-    width:874px;
-    min-height: 168px;
-    border: 1px solid #D9D9D9;
-box-sizing: border-box;
-border-radius: 4px;
+.form__input--wrapper {
+  margin-top: 21px;
 }
 
-.article__form_tag-button {
-    margin-left: 27px;
-    box-sizing: border-box;
-   //styleName: Regular / 16 px | 24 px;
-font-family: Roboto;
-font-size: 16px;
-font-style: normal;
-font-weight: 400;
-line-height: 24px;
-letter-spacing: 0em;
-text-align: center;
-    color: black;
-    cursor: pointer;
-    height:40px;
-    width: 100px;
-    background-color: $background-color-base;
-    text-align: center;
-    vertical-align: bottom;
-    border: 1px solid $effects-color;
-    box-sizing: border-box;
-    border-radius: 5px;
-  }
-  
+.form__textarea {
+  width: 874px;
+  min-height: 168px;
+  border: 1px solid #d9d9d9;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
 
+.article__form_delete-button {
+  margin-left: 15px;
+  box-sizing: border-box;
+  //styleName: Regular / 16 px | 24 px;
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: $button-reject-color;
+  cursor: pointer;
+  height: 40px;
+  width: 100px;
+  background-color: $background-color-base;
+  text-align: center;
+  vertical-align: bottom;
+  border: 1px solid $button-reject-color;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.article__form_add-button {
+  margin-left: 15px;
+  box-sizing: border-box;
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: $info-color;
+  cursor: pointer;
+  height: 40px;
+  width: 100px;
+  background-color: $background-color-base;
+  text-align: center;
+  vertical-align: bottom;
+  border: 1px solid $info-color;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
 
 .form__submit-button {
   background: none;
@@ -136,7 +156,7 @@ text-align: center;
   height: 40px;
   color: $background-color-base;
   background-color: $info-color;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-size: 16px;
   font-style: normal;
   font-weight: 400;

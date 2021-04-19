@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
-import { format } from 'date-fns';
-import { Avatar } from 'antd';
-import { Article } from '../../types';
-import classes from './Card.module.scss';
+import React, { FC } from "react";
+import { Link } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+import { format } from "date-fns";
+import { Avatar } from "antd";
+import { Article } from "../../types";
+import classes from "./Card.module.scss";
 
 const Card: FC<Article> = (props: Article) => {
   const {
@@ -29,10 +29,10 @@ const Card: FC<Article> = (props: Article) => {
         <Link className={classes.card__link} to={`/articles/:${slug}`}>
           {title}
         </Link>
-        <button type="button" className={classes['card__favourite-button']}>
+        <button type="button" className={classes["card__favourite-button"]}>
           like
         </button>
-        <span className={classes['card__favourite-count']}>
+        <span className={classes["card__favourite-count"]}>
           {favoritesCount}
         </span>
         <div>{tags}</div>
@@ -44,7 +44,7 @@ const Card: FC<Article> = (props: Article) => {
         <div className={classes.card__user_wrapper}>
           <h6 className={classes.card__username}>{username}</h6>
           <span className={classes.card__created}>
-            {format(new Date(createdAt), 'MMMMMMM dd, yyyy')}
+            {format(new Date(createdAt), "MMMMMMM dd, yyyy")}
           </span>
         </div>
         <Avatar

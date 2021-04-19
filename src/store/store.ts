@@ -1,6 +1,6 @@
-import { configureStore } from '@reduxjs/toolkit';
-import serviceSlice from './serviceReducer';
-import dataSlice from './dataReducer';
+import { configureStore } from "@reduxjs/toolkit";
+import serviceSlice from "./serviceReducer";
+import dataSlice from "./dataReducer";
 
 const store = configureStore({
   reducer: {

@@ -7,7 +7,7 @@ import {
   ErrorHttpAction,
   UPDATE_USER_IN_STORE,
   User,
-} from '../types';
+} from "../types";
 
 export function UpdateArticles(payload: ArticleData): ArticleActionTypes {
   return {

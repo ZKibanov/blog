@@ -1,12 +1,12 @@
-import React, { FC, useEffect } from 'react';
-import { Pagination } from 'antd';
-import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
-import { useAppSelector } from '../../hooks';
-import { setArticlesToStore } from '../../store/dataReducer';
-import Card from '../Card';
-import blogApi from '../../api/BlogApiService';
-import store from '../../store/store';
-import classes from './Articles.module.scss';
+import React, { FC, useEffect } from "react";
+import { Pagination } from "antd";
+import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
+import { useAppSelector } from "../../hooks";
+import { setArticlesToStore } from "../../store/dataReducer";
+import Card from "../Card";
+import blogApi from "../../api/BlogApiService";
+import store from "../../store/store";
+import classes from "./Articles.module.scss";
 
 const Articles: FC = () => {
   const getArticles = async (pageNumber = 1) => {

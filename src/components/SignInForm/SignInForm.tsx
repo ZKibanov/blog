@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
-import { useCookies } from 'react-cookie';
-import { Link, useHistory } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import BlogApi from '../../api/BlogApiService';
-import { useAppSelector } from '../../hooks';
-import { manageUserToStore } from '../../utils';
-import classes from './SignInForm.module.scss';
+import React, { FC } from "react";
+import { useCookies } from "react-cookie";
+import { Link, useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import BlogApi from "../../api/BlogApiService";
+import { useAppSelector } from "../../hooks";
+import { manageUserToStore } from "../../utils";
+import classes from "./SignInForm.module.scss";
 
 type Inputs = {
   loginPassword: string;
@@ -15,7 +15,7 @@ type Inputs = {
 const SignInForm: FC = () => {
   const isLoading = useAppSelector((state) => state.services.isLoading);
   const history = useHistory();
-  const [cookies, setCookie, removeCookie] = useCookies(['Token']);
+  const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
 
   const {
     register,
@@ -34,7 +34,7 @@ const SignInForm: FC = () => {
     };
 
     console.log(userInfo);
-    BlogApi('users/login', 'POST', userInfo).then((response) => {
+    BlogApi("users/login", "POST", userInfo).then((response) => {
       if (response.status === 422) {
         const errorDetails = response.data.errors;
         for (const property in errorDetails) {
@@ -47,14 +47,14 @@ const SignInForm: FC = () => {
       //   if (!response.status) {console.log(response.status)}
       if (response.user) {
         const { username, email, token, image, id } = response.user;
-        setCookie('Authorization', token, { secure: true });
+        setCookie("Authorization", token, { secure: true });
         manageUserToStore(username, email, image);
-        history.push('/articles');
+        history.push("/articles");
       }
     });
   };
 
-  console.log(watch('loginPassword')); // watch input value by passing the name of it
+  console.log(watch("loginPassword")); // watch input value by passing the name of it
 
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
@@ -67,7 +67,7 @@ const SignInForm: FC = () => {
             className={classes.form__input}
             type="email"
             id="login__email"
-            {...register('loginEmail', { required: true })}
+            {...register("loginEmail", { required: true })}
           />
         </label>
         <label className={classes.form__label} htmlFor="login__password">
@@ -76,13 +76,13 @@ const SignInForm: FC = () => {
             className={classes.form__input}
             type="password"
             id="login__password"
-            {...register('loginPassword', { required: true })}
+            {...register("loginPassword", { required: true })}
           />
         </label>
         <button
           type="submit"
           disabled={isLoading}
-          className={classes['form__submit-button']}
+          className={classes["form__submit-button"]}
         >
           Login
         </button>

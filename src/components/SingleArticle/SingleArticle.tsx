@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
-import Markdown from 'react-markdown';
-import { useAppSelector } from '../../hooks';
-import Card from '../Card/Card';
-import classes from './SingleArticle.module.scss';
+import React, { FC } from "react";
+import Markdown from "react-markdown";
+import { useAppSelector } from "../../hooks";
+import Card from "../Card/Card";
+import classes from "./SingleArticle.module.scss";
 
 interface Slug {
   slug: string;
@@ -21,17 +21,17 @@ const SingleArticle: FC<Slug> = (props) => {
     /* eslint-enable */
   } else {
     articleContent = {
-      title: 'ЗАГЛУШКА',
-      slug: '546-d65pmj',
-      body: 'ИСПРАВЬ НА ЗАПРОС!!!',
-      createdAt: '2021-03-23T15:13:32.875Z',
-      updatedAt: '2021-03-23T15:13:32.875Z',
-      tagList: ['456'],
-      description: '456',
+      title: "ЗАГЛУШКА",
+      slug: "546-d65pmj",
+      body: "ИСПРАВЬ НА ЗАПРОС!!!",
+      createdAt: "2021-03-23T15:13:32.875Z",
+      updatedAt: "2021-03-23T15:13:32.875Z",
+      tagList: ["456"],
+      description: "456",
       author: {
-        username: 'God-just-God',
+        username: "God-just-God",
         bio: null,
-        image: '',
+        image: "",
         following: false,
       },
       favorited: false,
