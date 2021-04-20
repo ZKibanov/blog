@@ -7,6 +7,7 @@ import { Article, User } from "../types";
 interface ServerResponse extends AxiosResponse {
   articles?: Article[];
   user?: User;
+  article:Article;
 }
 interface RequestHeaders {
   "Content-Type": "application/json";
@@ -38,6 +39,7 @@ const blogApi = async (
       method,
       data,
       headers: getHeaders(),
+      withCredentials: true
     });
     store.dispatch(actions.setNotLoading());
     return response.data;

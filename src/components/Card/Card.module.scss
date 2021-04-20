@@ -37,10 +37,26 @@ $text-color-secondary: rgba(0, 0, 0, 0.5);
   font-size: 20px;
   line-height: 28px;
 }
+
 .card__favourite-button {
+  width:16px;
+  height:16px;
+  background-image: url('../../images/heart1.svg');
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
+.card__unfavourite-button{
+  width:16px;
+  height:16px;
+  background-image: url('../../images/heart_active1.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .card__favourite-count {
 }
+
 .card__preview {
   width: 682px;
   font-size: 12px;
