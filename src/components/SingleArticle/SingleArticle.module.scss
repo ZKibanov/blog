@@ -1,5 +1,7 @@
 $info-color: #1890ff;
 $background-color-base: #ffffff;
+$unsafe-operation: #f5222d;
+$safe-operation: #52c41a;
 
 .article {
   position: relative;
@@ -21,6 +23,29 @@ $background-color-base: #ffffff;
 }
 
 .article__main {
-  margin-top: -24px;
+  width: 941px;
+  height: 650px;
   padding: 0 42px 0 19px;
+  overflow-y: scroll;
+}
+
+.article__menu {
+  position: absolute;
+  right: 0;
+  top: 93px;
+}
+.article__menu_button--delete {
+  margin-right: 12px;
+  padding: 6px 17px;
+  border: 1px solid $unsafe-operation;
+  border-radius: 5px;
+  color: $unsafe-operation;
+}
+
+.article__menu_button--edit {
+  margin-right: 12px;
+  padding: 6px 17px;
+  border: 1px solid $safe-operation;
+  border-radius: 5px;
+  color: $safe-operation;
 }

@@ -39,17 +39,17 @@ $text-color-secondary: rgba(0, 0, 0, 0.5);
 }
 
 .card__favourite-button {
-  width:16px;
-  height:16px;
-  background-image: url('../../images/heart1.svg');
+  width: 16px;
+  height: 16px;
+  background-image: url("../../images/heart1.svg");
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.card__unfavourite-button{
-  width:16px;
-  height:16px;
-  background-image: url('../../images/heart_active1.svg');
+.card__unfavourite-button {
+  width: 16px;
+  height: 16px;
+  background-image: url("../../images/heart_active1.svg");
   background-position: center;
   background-repeat: no-repeat;
 }

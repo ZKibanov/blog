@@ -8,10 +8,7 @@ import classes from "./Card.module.scss";
 import { useAppSelector } from "../../hooks";
 import { setArticlesToStore } from "../../store/dataReducer";
 import store from "../../store/store";
-import blogApi from "../../api/BlogApiService";
-
-
-
+import { blogApiWithoutLoadingIndication } from "../../api/BlogApiService";
 
 const Card: FC<Article> = (props: Article) => {
   const {
@@ -32,32 +29,52 @@ const Card: FC<Article> = (props: Article) => {
     </span>
   ));
   const articlesObject = useAppSelector((state) => state.data.articles);
+  const user = useAppSelector((state) => state.data.user);
 
-  // пофиксить, исходя из локейшна роутера - в одиночной статье работает хорошо, хз вообще - почему....
-  const setLike = async(someArticle:Article,articleIndex:number) =>{
-    const favValue:boolean = someArticle.favorited;
+  const setLike = async (someArticle: Article, articleIndex: number) => {
+    const favValue: boolean = someArticle.favorited;
     const slug = someArticle.slug;
-    const newArticleObject = (favValue === false) ?
-    await blogApi(`/articles/${slug}/favorite`,'POST') :
-    await blogApi(`/articles/${slug}/favorite`,'DELETE')
-    console.log(newArticleObject.article)
-    const result = [...articlesObject]
-    result[articleIndex] = newArticleObject.article;
-    store.dispatch(setArticlesToStore(result))
-  }
+    const newArticleObject =
+      favValue === false
+        ? await blogApiWithoutLoadingIndication(
+            `/articles/${slug}/favorite`,
+            "POST"
+          )
+        : await blogApiWithoutLoadingIndication(
+            `/articles/${slug}/favorite`,
+            "DELETE"
+          );
+    const newArticles = [...articlesObject];
+    newArticles[articleIndex] = newArticleObject.article;
+    store.dispatch(setArticlesToStore(newArticles));
+  };
 
   const addReaction = () => {
- articlesObject.map((article,i)=>{
-      if(article.slug===slug){
-        const newArticle =  setLike(article,i)
+    articlesObject.map((article, i) => {
+      if (article.slug === slug) {
+        const newArticle = setLike(article, i);
       }
-      return article
-    })
-  }
-  
-  const likeButton = favorited ?
-  <button type="button" onClick = {addReaction} className={classes["card__unfavourite-button"]}/>:
-  <button type="button" onClick = {addReaction} className={classes["card__favourite-button"]}/>
+      return article;
+    });
+  };
+
+  const isAuthorized = !!user;
+
+  const likeButton = favorited ? (
+    <button
+      type="button"
+      disabled={!isAuthorized}
+      onClick={addReaction}
+      className={classes["card__unfavourite-button"]}
+    />
+  ) : (
+    <button
+      type="button"
+      disabled={!isAuthorized}
+      onClick={addReaction}
+      className={classes["card__favourite-button"]}
+    />
+  );
 
   return (
     <article className={classes.card}>

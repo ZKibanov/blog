@@ -39,21 +39,17 @@ export default function Profile() {
     console.log(data);
     BlogApi("user", "PUT", userInfo).then((response) => {
       console.log(response);
-      //   const errorDetails = response.data.errors;
-      //   if (response.status === 422) {
-      //     for (const property in errorDetails) {
-      //       if (Object.prototype.hasOwnProperty.call(errorDetails, property)) {
-      //         console.log(`${property}: ${errorDetails[property]}`);
-      //       }
-      //     }
-      //     // do smthing
-      //   }
-      // //   store.dispatch(updateUserInStore(response.user));
+      if (response.status === 422) {
+        const errorDetails = response.data.errors;
+        for (const property in errorDetails) {
+          if (Object.prototype.hasOwnProperty.call(errorDetails, property)) {
+            console.log(`${property}: ${errorDetails[property]}`);
+          }
+        }
+      }
+      if (response.user) store.dispatch(updateUserInStore(response.user));
     });
-    // console.log(JSON.stringify(user));
   };
-
-  console.log(watch("newUsername")); // watch input value by passing the name of it
 
   return (
     <div className={classes.form_wrapper}>

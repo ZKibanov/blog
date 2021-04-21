@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { useForm } from "react-hook-form";
 import { Article } from "../../types";
+import { useHistory } from "react-router-dom";
 import { useAppSelector } from "../../hooks";
 import BlogApi from "../../api/BlogApiService";
 import classes from "./ArticleForm.module.scss";
@@ -12,9 +13,9 @@ type Inputs = {
   newArticleTags?: string[];
 };
 
-const NewArticle: FC = () => {
+const NewArticle: FC = (props) => {
   const isLoading = useAppSelector((state) => state.services.isLoading);
-  // const history = useHistory();
+  const history = useHistory();
 
   const {
     register,
@@ -49,10 +50,11 @@ const NewArticle: FC = () => {
           }
         }
       }
+      if (response.article) console.log(response);
 
       //   if (!response.status) {console.log(response.status)}
       // store.dispatch(updateUserInStore(response.user));
-      // history.push('/articles')
+      history.push("/articles");
     });
   };
 
