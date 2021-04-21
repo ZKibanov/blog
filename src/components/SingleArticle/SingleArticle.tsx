@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import Markdown from "react-markdown";
-import { useAppSelector } from "../../hooks";
 import { useHistory } from "react-router-dom";
+import { useAppSelector } from "../../hooks";
 import Card from "../Card/Card";
 import classes from "./SingleArticle.module.scss";
 import blogApi from "../../api/BlogApiService";
@@ -22,10 +22,10 @@ const SingleArticle: FC<Slug> = (props) => {
   if (requestedArticle.length > 0) {
     /* eslint-disable prefer-destructuring */
     articleContent = requestedArticle[0];
-    /* eslint-enable */
+    /* eslint-enable prefer-destructuring */
   } else {
     blogApi(`articles/${slug.slice(1)}`).then(
-      (response) => (articleContent = response.article)
+      (response => console.log(response.article))
     );
   }
 
@@ -41,12 +41,15 @@ const SingleArticle: FC<Slug> = (props) => {
     userData.username === requestedArticle[0].author.username ? (
       <div className={classes.article__menu}>
         <button
+        type="button"
           className={classes["article__menu_button--delete"]}
           onClick={deleteArticle}
         >
           Delete
         </button>
-        <button className={classes["article__menu_button--edit"]}>Edit</button>
+        <button
+        type="button"
+        className={classes["article__menu_button--edit"]}>Edit</button>
       </div>
     ) : null;
 

@@ -43,6 +43,13 @@ const App: FC = () => {
             return <SingleArticle slug={match.params.slug} />;
           }}
         />
+        <Route
+        path="/articles/:slug/edit"
+        render={({ match, history, location }) => {
+            console.log(match.params.slug);
+            return <ArticleForm />;
+        }}
+        />
         <Route path="/" exact component={Articles} />
       </BrowserRouter>
     </>

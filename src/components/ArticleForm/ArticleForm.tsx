@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Article } from "../../types";
 import { useHistory } from "react-router-dom";
+import { Article } from "../../types";
 import { useAppSelector } from "../../hooks";
 import BlogApi from "../../api/BlogApiService";
 import classes from "./ArticleForm.module.scss";
@@ -41,7 +41,7 @@ const NewArticle: FC = (props) => {
         title: newArticleTitle,
         description: newArticleDescription,
         body: newArticleText,
-        tagList: tagList,
+        tagList,
       },
     };
 
@@ -133,8 +133,8 @@ const NewArticle: FC = (props) => {
           </button>
           <button
             onClick={() =>
-              setTagList((tagList) => {
-                const resultArray = [...tagList];
+              setTagList((tags) => {
+                const resultArray = [...tags];
                 resultArray.push(singleTag);
                 return resultArray;
               })

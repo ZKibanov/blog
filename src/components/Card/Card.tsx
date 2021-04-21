@@ -33,15 +33,15 @@ const Card: FC<Article> = (props: Article) => {
 
   const setLike = async (someArticle: Article, articleIndex: number) => {
     const favValue: boolean = someArticle.favorited;
-    const slug = someArticle.slug;
+    const { slug:newSlug }= someArticle;
     const newArticleObject =
       favValue === false
         ? await blogApiWithoutLoadingIndication(
-            `/articles/${slug}/favorite`,
+            `/articles/${newSlug}/favorite`,
             "POST"
           )
         : await blogApiWithoutLoadingIndication(
-            `/articles/${slug}/favorite`,
+            `/articles/${newSlug}/favorite`,
             "DELETE"
           );
     const newArticles = [...articlesObject];
@@ -63,6 +63,7 @@ const Card: FC<Article> = (props: Article) => {
   const likeButton = favorited ? (
     <button
       type="button"
+      aria-label="remove like"
       disabled={!isAuthorized}
       onClick={addReaction}
       className={classes["card__unfavourite-button"]}
@@ -70,6 +71,7 @@ const Card: FC<Article> = (props: Article) => {
   ) : (
     <button
       type="button"
+      aria-label="add like"
       disabled={!isAuthorized}
       onClick={addReaction}
       className={classes["card__favourite-button"]}
