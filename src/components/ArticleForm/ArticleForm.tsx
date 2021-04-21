@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Article } from "../../types";
 import { useHistory } from "react-router-dom";
@@ -11,11 +11,13 @@ type Inputs = {
   newArticleDescription: string;
   newArticleText: string;
   newArticleTags?: string[];
+  newTag: string;
 };
 
 const NewArticle: FC = (props) => {
   const isLoading = useAppSelector((state) => state.services.isLoading);
   const history = useHistory();
+  const [tagList, setTagList] = useState([""]);
 
   const {
     register,
@@ -23,6 +25,9 @@ const NewArticle: FC = (props) => {
     watch,
     formState: { errors },
   } = useForm<Inputs>();
+
+  const singleTag = watch("newTag");
+
   const onSubmit = (data: Inputs) => {
     const {
       newArticleTitle,
@@ -36,7 +41,7 @@ const NewArticle: FC = (props) => {
         title: newArticleTitle,
         description: newArticleDescription,
         body: newArticleText,
-        tagList: newArticleTags,
+        tagList: tagList,
       },
     };
 
@@ -101,9 +106,10 @@ const NewArticle: FC = (props) => {
             type="text"
             name="newArticleTags"
             id="new__article__tags"
-            // ref={register({ required: true })}
+            value={tagList.join(" ")}
           />
           <button
+            onClick={() => setTagList([])}
             className={classes["article__form_delete-button"]}
             type="button"
           >
@@ -115,9 +121,9 @@ const NewArticle: FC = (props) => {
           <input
             className={classes["form__input--short"]}
             type="text"
-            name="newTag"
             id="new__tag"
-            // ref={register({ required: true })}
+            // onChange={()}
+            {...register("newTag")}
           />
           <button
             className={classes["article__form_delete-button"]}
@@ -125,7 +131,17 @@ const NewArticle: FC = (props) => {
           >
             Delete
           </button>
-          <button className={classes["article__form_add-button"]} type="button">
+          <button
+            onClick={() =>
+              setTagList((tagList) => {
+                const resultArray = [...tagList];
+                resultArray.push(singleTag);
+                return resultArray;
+              })
+            }
+            className={classes["article__form_add-button"]}
+            type="button"
+          >
             Add tag
           </button>
         </label>
