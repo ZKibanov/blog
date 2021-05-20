@@ -81,7 +81,7 @@ const Card: FC<Article> = (props: Article) => {
   return (
     <article className={classes.card}>
       <div className={classes.card__main}>
-        <Link className={classes.card__link} to={`/articles/:${slug}`}>
+        <Link className={classes.card__link} to={`/articles/${slug}`}>
           {title}
         </Link>
         {likeButton}

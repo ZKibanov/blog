@@ -1,36 +1,40 @@
-import React, { FC } from "react";
-import Markdown from "react-markdown";
+import React, { FC,useEffect,useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { useHistory } from "react-router-dom";
 import { useAppSelector } from "../../hooks";
 import Card from "../Card/Card";
 import classes from "./SingleArticle.module.scss";
 import blogApi from "../../api/BlogApiService";
+import { Article } from '../../types';
 
 interface Slug {
   slug: string;
 }
 const SingleArticle: FC<Slug> = (props) => {
+  const [articleContent,setArticleContent] = useState<Article | undefined >() 
+
+  const { slug } = props;
   const history = useHistory();
   const userData = useAppSelector((state) => state.data.user);
-  let articleContent;
-  const { slug } = props;
   const articlesFromStore = useAppSelector((state) => state.data.articles);
   const requestedArticle = articlesFromStore.filter(
-    (el) => el.slug === slug.slice(1)
+    (el) => el.slug === slug
   );
+  useEffect(()=>{
+    if (requestedArticle.length > 0) {
+      /* eslint-disable prefer-destructuring */
+      setArticleContent(requestedArticle[0]);
+      /* eslint-enable prefer-destructuring */
+    } else {
+      blogApi(`articles/${slug}`).then(
+        (response => setArticleContent(response.article))
+      );
+    }
+  },[])
 
-  if (requestedArticle.length > 0) {
-    /* eslint-disable prefer-destructuring */
-    articleContent = requestedArticle[0];
-    /* eslint-enable prefer-destructuring */
-  } else {
-    blogApi(`articles/${slug.slice(1)}`).then(
-      (response => console.log(response.article))
-    );
-  }
 
   const deleteArticle = async () => {
-    blogApi(`articles/${slug.slice(1)}`, "DELETE").then((response) =>
+    blogApi(`articles/${slug}`, "DELETE").then((response) =>
       history.push("/")
     );
   };
@@ -62,7 +66,7 @@ const SingleArticle: FC<Slug> = (props) => {
           <div className={classes.article__header_filter} />
         </div>
         {articleMenu}
-        <Markdown className={classes.article__main}>{body}</Markdown>
+        <ReactMarkdown className={classes.article__main}>{body}</ReactMarkdown>
       </article>
     );
   }

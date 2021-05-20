@@ -40,7 +40,8 @@ const App: FC = () => {
           path="/articles/:slug"
           render={({ match, history, location }) => {
             console.log(match.params.slug);
-            return <SingleArticle slug={match.params.slug} />;
+            const {slug} = match.params
+            return <SingleArticle slug={slug} />;
           }}
         />
         <Route
