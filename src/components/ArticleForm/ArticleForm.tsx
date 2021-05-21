@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { Article } from "../../types";
@@ -14,19 +14,35 @@ type Inputs = {
   newTag: string;
 };
 
-const NewArticle: FC = (props) => {
+
+interface Slug {
+  slug: string;
+}
+
+const NewArticle: FC<Slug> = (props) => {
   const isLoading = useAppSelector((state) => state.services.isLoading);
   const history = useHistory();
-  const [tagList, setTagList] = useState([""]);
+  
+  const [formTagList, setTagList] = useState<string[]>([]);
 
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<Inputs>();
 
   const singleTag = watch("newTag");
+
+  const tagElements = formTagList.map(tag=><div key={tag} className={classes["tag-wrapper"]}><p className={classes.tag}>{tag}</p>
+  <button
+    onClick={() => setTagList(tags=>tags.filter(currentTag=>currentTag!==tag))}
+    className={classes["article__form_delete-button"]}
+    type="button"
+  >
+    Delete
+  </button></div>)
 
   const onSubmit = (data: Inputs) => {
     const {
@@ -41,7 +57,7 @@ const NewArticle: FC = (props) => {
         title: newArticleTitle,
         description: newArticleDescription,
         body: newArticleText,
-        tagList,
+        formTagList,
       },
     };
 
@@ -100,44 +116,33 @@ const NewArticle: FC = (props) => {
         <label className={classes.form__label} htmlFor="new__article__tags">
           Tags
           <br />
-          <input
-            className={classes["form__input--short"]}
-            disabled
-            type="text"
-            name="newArticleTags"
-            id="new__article__tags"
-            value={tagList.join(" ")}
-          />
-          <button
-            onClick={() => setTagList([])}
-            className={classes["article__form_delete-button"]}
-            type="button"
-          >
-            Delete
-          </button>
+          {tagElements}
         </label>
-        <br />
         <label className={classes.form__label} htmlFor="new__tag">
           <input
             className={classes["form__input--short"]}
             type="text"
             id="new__tag"
-            // onChange={()}
             {...register("newTag")}
           />
           <button
             className={classes["article__form_delete-button"]}
             type="button"
+            onClick={()=>setValue('newTag','')}
           >
             Delete
           </button>
           <button
-            onClick={() =>
+            onClick={() =>{
               setTagList((tags) => {
                 const resultArray = [...tags];
-                resultArray.push(singleTag);
-                return resultArray;
+                if (singleTag.trim().length>0){
+                resultArray.push(singleTag.trim());
+                }
+                return Array.from(new Set(resultArray));
               })
+              setValue('newTag','');
+            }
             }
             className={classes["article__form_add-button"]}
             type="button"
@@ -152,12 +157,6 @@ const NewArticle: FC = (props) => {
         >
           Send
         </button>
-        {/* register your input into the hook by invoking the "register" function */}
-        {/* <input name="example" defaultValue="test" ref={register} /> */}
-
-        {/* include validation with required or other standard HTML validation rules */}
-        {/* <input name="exampleRequired" ref={register({ required: true })} /> */}
-        {/* errors will return when field validation fails  */}
         {errors.newArticleTitle && <span>This field is required</span>}
       </div>
     </form>

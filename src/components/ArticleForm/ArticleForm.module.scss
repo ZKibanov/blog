@@ -7,7 +7,7 @@ $button-reject-color: #f5222d;
   display: flex;
   flex-direction: column;
   width: 938px;
-  height: 701px;
+  min-height: 701px;
   background-color: $background-color-base;
   margin: 59px auto;
   border-radius: 6px;
@@ -20,6 +20,7 @@ $button-reject-color: #f5222d;
   text-align: center;
   padding-left: 32px;
   padding-right: 32px;
+  padding-bottom:48px;
 }
 
 .form__header {
@@ -168,4 +169,26 @@ $button-reject-color: #f5222d;
 
 .form_wrapper {
   height: 897px;
+}
+
+.tag-wrapper{
+  display:flex;
+}
+
+.tag{
+  width:300px;
+  border-radius:5px;
+  height:40px;
+  border: 1px solid #D9D9D9;
+  padding-left:12px;
+  padding-top:8px;
+  text-align: center;
+font-family: Roboto;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+
 }

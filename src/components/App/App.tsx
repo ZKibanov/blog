@@ -47,8 +47,8 @@ const App: FC = () => {
         <Route
         path="/articles/:slug/edit"
         render={({ match, history, location }) => {
-            console.log(match.params.slug);
-            return <ArticleForm />;
+            const {slug} = match.params
+            return <ArticleForm slug={slug}/>;
         }}
         />
         <Route path="/" exact component={Articles} />

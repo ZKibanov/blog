@@ -3,6 +3,7 @@ import ReactMarkdown from "react-markdown";
 import { useHistory } from "react-router-dom";
 import { useAppSelector } from "../../hooks";
 import Card from "../Card/Card";
+import LoadingIndicator from "../LoadingIndicator/LoadingIndicator";
 import classes from "./SingleArticle.module.scss";
 import blogApi from "../../api/BlogApiService";
 import { Article } from '../../types';
@@ -16,6 +17,7 @@ const SingleArticle: FC<Slug> = (props) => {
   const { slug } = props;
   const history = useHistory();
   const userData = useAppSelector((state) => state.data.user);
+  const isLoading = useAppSelector((state) => state.services.isLoading);
   const articlesFromStore = useAppSelector((state) => state.data.articles);
   const requestedArticle = articlesFromStore.filter(
     (el) => el.slug === slug
@@ -57,9 +59,10 @@ const SingleArticle: FC<Slug> = (props) => {
       </div>
     ) : null;
 
-  if (articleContent) {
+  let content;
+  if (articleContent && !isLoading) {
     const { body } = articleContent;
-    return (
+    content =  (
       <article className={classes.article}>
         <div className={classes.article__header}>
           <Card {...articleContent} />
@@ -69,12 +72,19 @@ const SingleArticle: FC<Slug> = (props) => {
         <ReactMarkdown className={classes.article__main}>{body}</ReactMarkdown>
       </article>
     );
-  }
-  return (
-    <div>
+  } else if (!articleContent && !isLoading){
+    content = (
+      <div>
       <p>Статья не найдена</p>
     </div>
-  );
+    )
+  } else if (isLoading){
+    content = LoadingIndicator
+  }
+  
+  return <>
+  {content}
+  </>;
 };
 
 export default SingleArticle;
