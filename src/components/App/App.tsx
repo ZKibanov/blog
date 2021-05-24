@@ -38,6 +38,7 @@ const App: FC = () => {
 
         <Route
           path="/articles/:slug"
+          exact
           render={({ match, history, location }) => {
             console.log(match.params.slug);
             const {slug} = match.params

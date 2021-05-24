@@ -1,9 +1,10 @@
-import React, { FC, ReactNode, useState } from "react";
+import React, { FC, ReactNode, useState, useEffect } from "react";
+import { Method} from "axios";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { Article } from "../../types";
 import { useAppSelector } from "../../hooks";
-import BlogApi from "../../api/BlogApiService";
+import blogApi from "../../api/BlogApiService";
 import classes from "./ArticleForm.module.scss";
 
 type Inputs = {
@@ -22,8 +23,35 @@ interface Slug {
 const NewArticle: FC<Slug> = (props) => {
   const isLoading = useAppSelector((state) => state.services.isLoading);
   const history = useHistory();
-  
+  const articlesFromStore = useAppSelector((state) => state.data.articles);
+  const [articleContent,setArticleContent] = useState<Article | undefined >() 
   const [formTagList, setTagList] = useState<string[]>([]);
+
+
+  useEffect(()=>{
+    if (props.slug){
+      const requestedArticle = articlesFromStore.filter(
+        (el) => el.slug === props.slug
+      );
+      if (requestedArticle.length > 0) {
+        /* eslint-disable prefer-destructuring */
+        setArticleContent(requestedArticle[0]);
+        if (requestedArticle[0].tagList){
+          setTagList(requestedArticle[0].tagList)
+          }
+        /* eslint-enable prefer-destructuring */
+      } else {
+        blogApi(`articles/${props.slug}`).then(
+          (response => {
+            setArticleContent(response.article)
+            if (response.article.tagList){
+            setTagList(response.article.tagList)
+            }
+          })
+        );
+      }
+    }
+  },[])
 
   const {
     register,
@@ -49,7 +77,6 @@ const NewArticle: FC<Slug> = (props) => {
       newArticleTitle,
       newArticleDescription,
       newArticleText,
-      newArticleTags,
     } = data;
 
     const newArticle = {
@@ -57,11 +84,21 @@ const NewArticle: FC<Slug> = (props) => {
         title: newArticleTitle,
         description: newArticleDescription,
         body: newArticleText,
-        formTagList,
+        tagList:formTagList,
       },
     };
+     
+    let requestMethod:Method;
+    let endpoint;
+    if (props.slug){
+      requestMethod = 'PUT'; 
+      endpoint = `articles/${props.slug}`
+    } else {
+      requestMethod = 'POST'; 
+      endpoint ="articles";
+    }
 
-    BlogApi("articles", "POST", newArticle).then((response) => {
+    blogApi(endpoint, requestMethod, newArticle).then((response) => {
       // need to change this
       if (response.status === 422) {
         const errorDetails = response.data.errors;
@@ -90,6 +127,7 @@ const NewArticle: FC<Slug> = (props) => {
             className={classes.form__input}
             type="text"
             id="new__article__title"
+            defaultValue = {articleContent?.title || ""}
             {...register("newArticleTitle", { required: true })}
           />
         </label>
@@ -102,6 +140,7 @@ const NewArticle: FC<Slug> = (props) => {
             className={classes.form__input}
             type="text"
             id="new__article__description"
+            defaultValue = {articleContent?.description || ""}
             {...register("newArticleDescription", { required: true })}
           />
         </label>
@@ -110,6 +149,7 @@ const NewArticle: FC<Slug> = (props) => {
           <textarea
             className={classes.form__textarea}
             id="new__article__text"
+            defaultValue = {articleContent?.body || ""}
             {...register("newArticleText", { required: true })}
           />
         </label>

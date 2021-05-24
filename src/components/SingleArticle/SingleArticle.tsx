@@ -55,11 +55,12 @@ const SingleArticle: FC<Slug> = (props) => {
         </button>
         <button
         type="button"
-        className={classes["article__menu_button--edit"]}>Edit</button>
+        className={classes["article__menu_button--edit"]}
+        onClick={()=>history.push(`/articles/${slug}/edit`)}>Edit</button>
       </div>
     ) : null;
 
-  let content;
+  let content;    
   if (articleContent && !isLoading) {
     const { body } = articleContent;
     content =  (
