@@ -6,6 +6,9 @@ import { Article } from "../../types";
 import { useAppSelector } from "../../hooks";
 import blogApi from "../../api/BlogApiService";
 import classes from "./ArticleForm.module.scss";
+import {setArticlesToStore} from '../../store/dataReducer'
+import store from "../../store/store";
+
 
 type Inputs = {
   newArticleTitle: string;
@@ -17,7 +20,7 @@ type Inputs = {
 
 
 interface Slug {
-  slug: string;
+  slug?: string;
 }
 
 const NewArticle: FC<Slug> = (props) => {
@@ -108,11 +111,14 @@ const NewArticle: FC<Slug> = (props) => {
           }
         }
       }
-      if (response.article) console.log(response);
+      if (response.article && props.slug) {
+        const newArticles = articlesFromStore.map(article => article.slug === props.slug? response.article : article)
+        store.dispatch(setArticlesToStore(newArticles));
+      } 
+      history.goBack()
 
       //   if (!response.status) {console.log(response.status)}
       // store.dispatch(updateUserInStore(response.user));
-      history.push("/articles");
     });
   };
 

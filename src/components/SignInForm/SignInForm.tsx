@@ -49,7 +49,7 @@ const SignInForm: FC = () => {
         const { username, email, token, image, id } = response.user;
         setCookie("Authorization", token, { secure: true });
         manageUserToStore(username, email, image);
-        history.push("/articles");
+        history.goBack()
       }
     });
   };

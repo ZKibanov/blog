@@ -1,8 +1,9 @@
-import React, { FC, useEffect } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import React, { FC,ReactChild,ReactNode, useEffect } from "react";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import BlogApi from "../../api/BlogApiService";
 import { manageUserToStore } from "../../utils";
+import { useAppSelector } from "../../hooks";
 import Articles from "../Articles/Articles";
 import ArticleForm from "../ArticleForm/ArticleForm";
 import Header from "../Header/Header";
@@ -16,6 +17,34 @@ import Profile from "../Profile/Profile";
 
 const App: FC = () => {
   const [cookie] = useCookies(["Autorization"]);
+  const userData = useAppSelector((state) => state.data.user);
+
+  interface PrivateRouteProps{
+    children?:ReactChild,
+    path: string,
+  }
+
+const PrivateRoute:FC<PrivateRouteProps>=({ children, ...rest }) => {
+  const auth = userData;
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        auth ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/sign-in",
+              state: { from: location }
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+
   useEffect(() => {
     if (cookie.Authorization) {
       BlogApi("user", "get", undefined).then((response) => {
@@ -33,7 +62,11 @@ const App: FC = () => {
         <Route path="/sign-up" component={SignUpForm} />
         <Route path="/sign-in" component={SignInForm} />
         <Route path="/articles" exact component={Articles} />
-        <Route path="/new-article" component={ArticleForm} />
+
+        <PrivateRoute path="/new-article">
+        <ArticleForm />
+          </PrivateRoute> 
+
         <Route path="/profile" component={Profile} />
 
         <Route
@@ -45,6 +78,8 @@ const App: FC = () => {
             return <SingleArticle slug={slug} />;
           }}
         />
+
+<PrivateRoute path="/articles/:slug/edit">
         <Route
         path="/articles/:slug/edit"
         render={({ match, history, location }) => {
@@ -52,6 +87,7 @@ const App: FC = () => {
             return <ArticleForm slug={slug}/>;
         }}
         />
+          </PrivateRoute> 
         <Route path="/" exact component={Articles} />
       </BrowserRouter>
     </>

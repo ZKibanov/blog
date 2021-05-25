@@ -13,7 +13,6 @@ interface Slug {
 }
 const SingleArticle: FC<Slug> = (props) => {
   const [articleContent,setArticleContent] = useState<Article | undefined >() 
-
   const { slug } = props;
   const history = useHistory();
   const userData = useAppSelector((state) => state.data.user);
@@ -37,7 +36,7 @@ const SingleArticle: FC<Slug> = (props) => {
 
   const deleteArticle = async () => {
     blogApi(`articles/${slug}`, "DELETE").then((response) =>
-      history.push("/")
+      history.goBack()
     );
   };
 
