@@ -1,23 +1,23 @@
-import React, { FC, useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { Link } from "react-router-dom";
-import { Avatar } from "antd";
-import { useAppSelector } from "../../hooks";
-import store from "../../store/store";
-import { updateUserInStore } from "../../store/dataReducer";
-import { User } from "../../types";
-import classes from "./Header.module.scss";
+import React, { FC } from 'react';
+import { useCookies } from 'react-cookie';
+import { Link } from 'react-router-dom';
+import { Avatar } from 'antd';
+import { useAppSelector } from '../../hooks';
+import store from '../../store/store';
+import { updateUserInStore } from '../../store/dataReducer';
+import { User } from '../../types';
+import classes from './Header.module.scss';
 
 const Header: FC = () => {
   const userData = useAppSelector((state) => state.data.user);
-  const [cookies, setCookie, removeCookie] = useCookies(["Token"]);
+  const [cookies, setCookie, removeCookie] = useCookies(['Token']);
 
   const getHeaderContent = (user: User | null) => {
     if (user) {
       const { username } = user;
       let { image } = user;
       if (!image)
-        image = "https://static.productionready.io/images/smiley-cyrus.jpg";
+        image = 'https://static.productionready.io/images/smiley-cyrus.jpg';
       return (
         <ul className={classes.header__nav}>
           <li className={classes.header__nav_item}>
@@ -43,7 +43,7 @@ const Header: FC = () => {
               type="button"
               onClick={() => {
                 store.dispatch(updateUserInStore(null));
-                removeCookie("Authorization");
+                removeCookie('Authorization');
               }}
             >
               Log Out
@@ -56,13 +56,13 @@ const Header: FC = () => {
       <ul className={classes.header__nav}>
         <li className={classes.header__nav_item}>
           <Link className={classes.header__nav_link} to="/sign-in">
-            Sign In{" "}
+            Sign In{' '}
           </Link>
         </li>
         <li className={classes.header__nav_item}>
           <Link className={classes.header__nav_link} to="/sign-up">
-            {" "}
-            Sign Up{" "}
+            {' '}
+            Sign Up{' '}
           </Link>
         </li>
       </ul>

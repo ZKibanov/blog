@@ -38,26 +38,26 @@ export type ErrorHttpAction = {
   status: number;
 };
 
-export const UPDATE_ARTICLES = "UPDATE_ARTICLES";
+export const UPDATE_ARTICLES = 'UPDATE_ARTICLES';
 type UpdateArticles = {
   type: typeof UPDATE_ARTICLES;
   payload: ArticleData;
 };
 
-export const UPDATE_USER_IN_STORE = "UPDATE_USER_IN_STORE";
+export const UPDATE_USER_IN_STORE = 'UPDATE_USER_IN_STORE';
 type UpdateUserInStore = {
   type: typeof UPDATE_USER_IN_STORE;
   payload: User;
 };
 
-export const SET_FETCHING_ERROR = "SET_FETCHING_ERROR";
+export const SET_FETCHING_ERROR = 'SET_FETCHING_ERROR';
 type SetFetchingError = {
   type: typeof SET_FETCHING_ERROR;
   error: true;
   payload: ErrorHttpAction;
 };
 
-export const UPDATE_ARTICLES_ASYNC = "UPDATE_ARTICLES_ASYNC";
+export const UPDATE_ARTICLES_ASYNC = 'UPDATE_ARTICLES_ASYNC';
 type UpdateArticlesAsync = {
   type: typeof UPDATE_ARTICLES_ASYNC;
   payload: ArticleData;

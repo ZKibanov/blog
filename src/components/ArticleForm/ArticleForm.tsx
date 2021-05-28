@@ -1,14 +1,13 @@
-import React, { FC, ReactNode, useState, useEffect } from "react";
-import { Method} from "axios";
-import { useForm } from "react-hook-form";
-import { useHistory, useParams } from "react-router-dom";
-import { Article } from "../../types";
-import { useAppSelector } from "../../hooks";
-import blogApi from "../../api/BlogApiService";
-import classes from "./ArticleForm.module.scss";
-import {setArticlesToStore} from '../../store/dataReducer'
-import store from "../../store/store";
-
+import React, { FC, useState, useEffect } from 'react';
+import { Method } from 'axios';
+import { useForm } from 'react-hook-form';
+import { useHistory, useParams } from 'react-router-dom';
+import { Article } from '../../types';
+import { useAppSelector } from '../../hooks';
+import blogApi from '../../api/BlogApiService';
+import classes from './ArticleForm.module.scss';
+import { setArticlesToStore } from '../../store/dataReducer';
+import store from '../../store/store';
 
 type Inputs = {
   newArticleTitle: string;
@@ -18,43 +17,40 @@ type Inputs = {
   newTag: string;
 };
 
-
-interface Params{
-  slug?:string
+interface Params {
+  slug?: string;
 }
 
 const NewArticle: FC = (props) => {
   const isLoading = useAppSelector((state) => state.services.isLoading);
   const history = useHistory();
   const articlesFromStore = useAppSelector((state) => state.data.articles);
-  const [articleContent,setArticleContent] = useState<Article | undefined >() 
+  const [articleContent, setArticleContent] = useState<Article | undefined>();
   const [formTagList, setTagList] = useState<string[]>([]);
-  const params:Params = useParams();
+  const params: Params = useParams();
 
-  useEffect(()=>{
-    if (params && params.slug){
-            const requestedArticle = articlesFromStore.filter(
+  useEffect(() => {
+    if (params && params.slug) {
+      const requestedArticle = articlesFromStore.filter(
         (el) => el.slug === params.slug
       );
       if (requestedArticle.length > 0) {
         /* eslint-disable prefer-destructuring */
         setArticleContent(requestedArticle[0]);
-        if (requestedArticle[0].tagList){
-          setTagList(requestedArticle[0].tagList)
-          }
+        if (requestedArticle[0].tagList) {
+          setTagList(requestedArticle[0].tagList);
+        }
         /* eslint-enable prefer-destructuring */
       } else {
-        blogApi(`articles/${params.slug}`).then(
-          (response => {
-            setArticleContent(response.article)
-            if (response.article.tagList){
-            setTagList(response.article.tagList)
-            }
-          })
-        );
+        blogApi(`articles/${params.slug}`).then((response) => {
+          setArticleContent(response.article);
+          if (response.article.tagList) {
+            setTagList(response.article.tagList);
+          }
+        });
       }
     }
-  },[])
+  }, []);
 
   const {
     register,
@@ -64,41 +60,43 @@ const NewArticle: FC = (props) => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const singleTag = watch("newTag");
+  const singleTag = watch('newTag');
 
-  const tagElements = formTagList.map(tag=><div key={tag} className={classes["tag-wrapper"]}><p className={classes.tag}>{tag}</p>
-  <button
-    onClick={() => setTagList(tags=>tags.filter(currentTag=>currentTag!==tag))}
-    className={classes["article__form_delete-button"]}
-    type="button"
-  >
-    Delete
-  </button></div>)
+  const tagElements = formTagList.map((tag) => (
+    <div key={tag} className={classes['tag-wrapper']}>
+      <p className={classes.tag}>{tag}</p>
+      <button
+        onClick={() =>
+          setTagList((tags) => tags.filter((currentTag) => currentTag !== tag))
+        }
+        className={classes['article__form_delete-button']}
+        type="button"
+      >
+        Delete
+      </button>
+    </div>
+  ));
 
   const onSubmit = (data: Inputs) => {
-    const {
-      newArticleTitle,
-      newArticleDescription,
-      newArticleText,
-    } = data;
+    const { newArticleTitle, newArticleDescription, newArticleText } = data;
 
     const newArticle = {
       article: {
         title: newArticleTitle,
         description: newArticleDescription,
         body: newArticleText,
-        tagList:formTagList,
+        tagList: formTagList,
       },
     };
-     
-    let requestMethod:Method;
+
+    let requestMethod: Method;
     let endpoint;
-    if (params.slug){
-      requestMethod = 'PUT'; 
-      endpoint = `articles/${params.slug}`
+    if (params.slug) {
+      requestMethod = 'PUT';
+      endpoint = `articles/${params.slug}`;
     } else {
-      requestMethod = 'POST'; 
-      endpoint ="articles";
+      requestMethod = 'POST';
+      endpoint = 'articles';
     }
 
     blogApi(endpoint, requestMethod, newArticle).then((response) => {
@@ -112,20 +110,18 @@ const NewArticle: FC = (props) => {
         }
       }
       if (response.article && params.slug) {
-        const newArticles = articlesFromStore.map(article => article.slug === params.slug? response.article : article)
+        const newArticles = articlesFromStore.map((article) =>
+          article.slug === params.slug ? response.article : article
+        );
         store.dispatch(setArticlesToStore(newArticles));
-      } 
-      history.goBack()
-
-      //   if (!response.status) {console.log(response.status)}
-      // store.dispatch(updateUserInStore(response.user));
+      }
+      history.goBack();
     });
   };
 
   return (
-    /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
     <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-      <div className={classes["form__content--wrapper"]}>
+      <div className={classes['form__content--wrapper']}>
         <h2 className={classes.form__header}>Create new article</h2>
         <label className={classes.form__label} htmlFor="new__article__title">
           Title
@@ -133,8 +129,8 @@ const NewArticle: FC = (props) => {
             className={classes.form__input}
             type="text"
             id="new__article__title"
-            defaultValue = {articleContent?.title || ""}
-            {...register("newArticleTitle", { required: true })}
+            defaultValue={articleContent?.title || ''}
+            {...register('newArticleTitle', { required: true })}
           />
         </label>
         <label
@@ -146,8 +142,8 @@ const NewArticle: FC = (props) => {
             className={classes.form__input}
             type="text"
             id="new__article__description"
-            defaultValue = {articleContent?.description || ""}
-            {...register("newArticleDescription", { required: true })}
+            defaultValue={articleContent?.description || ''}
+            {...register('newArticleDescription', { required: true })}
           />
         </label>
         <label className={classes.form__label} htmlFor="new__article__text">
@@ -155,8 +151,8 @@ const NewArticle: FC = (props) => {
           <textarea
             className={classes.form__textarea}
             id="new__article__text"
-            defaultValue = {articleContent?.body || ""}
-            {...register("newArticleText", { required: true })}
+            defaultValue={articleContent?.body || ''}
+            {...register('newArticleText', { required: true })}
           />
         </label>
         <label className={classes.form__label} htmlFor="new__article__tags">
@@ -166,38 +162,37 @@ const NewArticle: FC = (props) => {
         </label>
         <label className={classes.form__label} htmlFor="new__tag">
           <input
-            className={classes["form__input--short"]}
+            className={classes['form__input--short']}
             type="text"
             id="new__tag"
-            {...register("newTag")}
+            {...register('newTag')}
           />
           <button
-            className={classes["article__form_delete-button"]}
+            className={classes['article__form_delete-button']}
             type="button"
-            onClick={()=>setValue('newTag','')}
+            onClick={() => setValue('newTag', '')}
           >
             Delete
           </button>
           <button
-            onClick={() =>{
+            onClick={() => {
               setTagList((tags) => {
                 const resultArray = [...tags];
-                if (singleTag.trim().length>0){
-                resultArray.push(singleTag.trim());
+                if (singleTag.trim().length > 0) {
+                  resultArray.push(singleTag.trim());
                 }
                 return Array.from(new Set(resultArray));
-              })
-              setValue('newTag','');
-            }
-            }
-            className={classes["article__form_add-button"]}
+              });
+              setValue('newTag', '');
+            }}
+            className={classes['article__form_add-button']}
             type="button"
           >
             Add tag
           </button>
         </label>
         <button
-          className={classes["form__submit-button"]}
+          className={classes['form__submit-button']}
           type="submit"
           disabled={isLoading}
         >

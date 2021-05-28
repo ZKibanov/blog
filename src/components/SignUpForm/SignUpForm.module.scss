@@ -5,7 +5,7 @@ $info-color: #1890ff;
   display: flex;
   flex-direction: column;
   width: 384px;
-  height: 599px;
+  min-height: 599px;
   background-color: $background-color-base;
   margin: 59px auto;
   border-radius: 6px;
@@ -39,7 +39,7 @@ $info-color: #1890ff;
 
 .form__label {
   //styleName: Regular / 14px | 22px;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -96,7 +96,7 @@ $info-color: #1890ff;
   height: 40px;
   color: $background-color-base;
   background-color: $info-color;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -104,6 +104,7 @@ $info-color: #1890ff;
   letter-spacing: 0em;
   text-align: center;
   margin-top: 21px;
+  margin-bottom: 21px;
 }
 
 .form_wrapper {

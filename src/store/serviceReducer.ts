@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 interface ServiceState {
   isLoading: boolean;
@@ -9,7 +9,7 @@ const initialState = { isLoading: false, hasError: false } as ServiceState;
 
 /* eslint-disable no-param-reassign */
 const serviceSlice = createSlice({
-  name: "services",
+  name: 'services',
   initialState,
   reducers: {
     setLoading(state) {

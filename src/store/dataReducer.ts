@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Article, User } from "../types";
+import { createSlice } from '@reduxjs/toolkit';
+import { Article, User } from '../types';
 
 interface DataState {
   articles: Article[];
@@ -9,7 +9,7 @@ interface DataState {
 const initialState = { articles: [], user: null } as DataState;
 /* eslint-disable no-param-reassign */
 const dataSlice = createSlice({
-  name: "data",
+  name: 'data',
   initialState,
   reducers: {
     setArticlesToStore(state, action) {

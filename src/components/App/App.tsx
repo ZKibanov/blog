@@ -1,48 +1,48 @@
-import React, { FC, useEffect } from "react";
-import { BrowserRouter, Route, Redirect,RouteProps } from "react-router-dom";
-import { useCookies } from "react-cookie";
-import BlogApi from "../../api/BlogApiService";
-import { manageUserToStore } from "../../utils";
-import { useAppSelector } from "../../hooks";
-import Articles from "../Articles/Articles";
-import Header from "../Header/Header";
-import SignInForm from "../SignInForm/SignInForm";
-import SignUpForm from "../SignUpForm/SignUpForm";
-import "./App.css";
-import "antd/dist/antd.css";
-import "normalize.css";
-import SingleArticle from "../SingleArticle/SingleArticle";
-import Profile from "../Profile/Profile";
-import NewArticle from "../ArticleForm/ArticleForm";
+import React, { FC, useEffect } from 'react';
+import { BrowserRouter, Route, Redirect, RouteProps } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import BlogApi from '../../api/BlogApiService';
+import { manageUserToStore } from '../../utils';
+import { useAppSelector } from '../../hooks';
+import Articles from '../Articles/Articles';
+import Header from '../Header/Header';
+import SignInForm from '../SignInForm/SignInForm';
+import SignUpForm from '../SignUpForm/SignUpForm';
+import './App.css';
+import 'antd/dist/antd.css';
+import 'normalize.css';
+import SingleArticle from '../SingleArticle/SingleArticle';
+import Profile from '../Profile/Profile';
+import NewArticle from '../ArticleForm/ArticleForm';
 
 const App: FC = () => {
-  const [cookie] = useCookies(["Autorization"]);
+  const [cookie] = useCookies(['Autorization']);
   const userData = useAppSelector((state) => state.data.user);
 
-const PrivateRoute:FC<RouteProps> =({ children, ...rest }) => {
-  const auth = userData;
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        auth ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/sign-in",
-              state: { from: location }
-            }}
-          />
-        )
-      }
-    />
-  );
-}
+  const PrivateRoute: FC<RouteProps> = ({ children, ...rest }) => {
+    const auth = userData;
+    return (
+      <Route
+        {...rest}
+        render={({ location }) =>
+          auth ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: '/sign-in',
+                state: { from: location },
+              }}
+            />
+          )
+        }
+      />
+    );
+  };
 
   useEffect(() => {
     if (cookie.Authorization) {
-      BlogApi("user", "get", undefined).then((response) => {
+      BlogApi('user', 'get', undefined).then((response) => {
         if (response.user) {
           const { username, email, image } = response.user;
           manageUserToStore(username, email, image);
@@ -59,11 +59,11 @@ const PrivateRoute:FC<RouteProps> =({ children, ...rest }) => {
         <Route path="/articles" exact component={Articles} />
 
         <PrivateRoute path="/new-article">
-        <NewArticle/>
+          <NewArticle />
         </PrivateRoute>
 
-        <PrivateRoute  path="/articles/:slug/edit">
-        <NewArticle/>
+        <PrivateRoute path="/articles/:slug/edit">
+          <NewArticle />
         </PrivateRoute>
 
         <Route path="/profile" component={Profile} />
@@ -72,7 +72,7 @@ const PrivateRoute:FC<RouteProps> =({ children, ...rest }) => {
           path="/articles/:slug"
           exact
           render={({ match, history, location }) => {
-            const {slug} = match.params
+            const { slug } = match.params;
             return <SingleArticle slug={slug} />;
           }}
         />

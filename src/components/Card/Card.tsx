@@ -1,14 +1,14 @@
-import React, { FC } from "react";
-import { Link } from "react-router-dom";
-import ReactMarkdown from "react-markdown";
-import { format } from "date-fns";
-import { Avatar } from "antd";
-import { Article } from "../../types";
-import classes from "./Card.module.scss";
-import { useAppSelector } from "../../hooks";
-import { setArticlesToStore } from "../../store/dataReducer";
-import store from "../../store/store";
-import { blogApiWithoutLoadingIndication } from "../../api/BlogApiService";
+import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+import { format } from 'date-fns';
+import { Avatar } from 'antd';
+import { Article } from '../../types';
+import classes from './Card.module.scss';
+import { useAppSelector } from '../../hooks';
+import { setArticlesToStore } from '../../store/dataReducer';
+import store from '../../store/store';
+import { blogApiWithoutLoadingIndication } from '../../api/BlogApiService';
 
 const Card: FC<Article> = (props: Article) => {
   const {
@@ -33,16 +33,16 @@ const Card: FC<Article> = (props: Article) => {
 
   const setLike = async (someArticle: Article, articleIndex: number) => {
     const favValue: boolean = someArticle.favorited;
-    const { slug:newSlug }= someArticle;
+    const { slug: newSlug } = someArticle;
     const newArticleObject =
       favValue === false
         ? await blogApiWithoutLoadingIndication(
             `/articles/${newSlug}/favorite`,
-            "POST"
+            'POST'
           )
         : await blogApiWithoutLoadingIndication(
             `/articles/${newSlug}/favorite`,
-            "DELETE"
+            'DELETE'
           );
     const newArticles = [...articlesObject];
     newArticles[articleIndex] = newArticleObject.article;
@@ -52,7 +52,7 @@ const Card: FC<Article> = (props: Article) => {
   const addReaction = () => {
     articlesObject.map((article, i) => {
       if (article.slug === slug) {
-        const newArticle = setLike(article, i);
+        setLike(article, i);
       }
       return article;
     });
@@ -66,7 +66,7 @@ const Card: FC<Article> = (props: Article) => {
       aria-label="remove like"
       disabled={!isAuthorized}
       onClick={addReaction}
-      className={classes["card__unfavourite-button"]}
+      className={classes['card__unfavourite-button']}
     />
   ) : (
     <button
@@ -74,7 +74,7 @@ const Card: FC<Article> = (props: Article) => {
       aria-label="add like"
       disabled={!isAuthorized}
       onClick={addReaction}
-      className={classes["card__favourite-button"]}
+      className={classes['card__favourite-button']}
     />
   );
 
@@ -85,7 +85,7 @@ const Card: FC<Article> = (props: Article) => {
           {title}
         </Link>
         {likeButton}
-        <span className={classes["card__favourite-count"]}>
+        <span className={classes['card__favourite-count']}>
           {favoritesCount}
         </span>
         <div>{tags}</div>
@@ -97,7 +97,7 @@ const Card: FC<Article> = (props: Article) => {
         <div className={classes.card__user_wrapper}>
           <h6 className={classes.card__username}>{username}</h6>
           <span className={classes.card__created}>
-            {format(new Date(createdAt), "MMMMMMM dd, yyyy")}
+            {format(new Date(createdAt), 'MMMMMMM dd, yyyy')}
           </span>
         </div>
         <Avatar

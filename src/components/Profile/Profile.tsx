@@ -1,9 +1,10 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import BlogApi from "../../api/BlogApiService";
-import { updateUserInStore } from "../../store/dataReducer";
-import store from "../../store/store";
-import classes from "./Profile.module.scss";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { notification } from 'antd';
+import BlogApi from '../../api/BlogApiService';
+import { updateUserInStore } from '../../store/dataReducer';
+import store from '../../store/store';
+import classes from './Profile.module.scss';
 
 type Inputs = {
   avatarImageUrl: string;
@@ -16,7 +17,6 @@ export default function Profile() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit = (data: Inputs) => {
@@ -26,7 +26,6 @@ export default function Profile() {
       avatarImageUrl: image,
       signupEmail: email,
     } = data;
-    // here is the problem - how to manage empty strings))
     const userInfo = {
       user: {
         bio: null,
@@ -36,14 +35,15 @@ export default function Profile() {
         password,
       },
     };
-    console.log(data);
-    BlogApi("user", "PUT", userInfo).then((response) => {
-      console.log(response);
+    BlogApi('user', 'PUT', userInfo).then((response) => {
       if (response.status === 422) {
         const errorDetails = response.data.errors;
         for (const property in errorDetails) {
           if (Object.prototype.hasOwnProperty.call(errorDetails, property)) {
-            console.log(`${property}: ${errorDetails[property]}`);
+            notification.open({
+              message: 'Errors',
+              description: `${property}: ${errorDetails[property]}`,
+            });
           }
         }
       }
@@ -60,7 +60,7 @@ export default function Profile() {
           <input
             className={classes.form__input}
             id="new__username"
-            {...register("newUsername", { required: false })}
+            {...register('newUsername', { required: false })}
           />
         </label>
         <label className={classes.form__label} htmlFor="signup__email">
@@ -69,7 +69,7 @@ export default function Profile() {
             className={classes.form__input}
             id="signup__email"
             type="email"
-            {...register("signupEmail", { required: false })}
+            {...register('signupEmail', { required: false })}
           />
         </label>
         <label className={classes.form__label} htmlFor="new__password">
@@ -78,7 +78,7 @@ export default function Profile() {
             className={classes.form__input}
             type="password"
             id="new__password"
-            {...register("newPassword", { required: false })}
+            {...register('newPassword', { required: false })}
           />
         </label>
         <label className={classes.form__label} htmlFor="avatar__image__url">
@@ -87,11 +87,11 @@ export default function Profile() {
             className={classes.form__input}
             type="text"
             id="avatar__image__url"
-            {...register("avatarImageUrl", { required: false })}
+            {...register('avatarImageUrl', { required: false })}
           />
         </label>
 
-        <button className={classes["form__submit-button"]} type="submit">
+        <button className={classes['form__submit-button']} type="submit">
           Save
         </button>
         {errors.newPassword && <span>This field is required</span>}

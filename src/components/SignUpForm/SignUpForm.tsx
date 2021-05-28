@@ -1,12 +1,12 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { notification  } from 'antd';
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import BlogApi from "../../api/BlogApiService";
-import { updateUserInStore } from "../../store/dataReducer";
-import store from "../../store/store";
-import classes from "./SignUpForm.module.scss";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { notification } from 'antd';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import BlogApi from '../../api/BlogApiService';
+import { updateUserInStore } from '../../store/dataReducer';
+import store from '../../store/store';
+import classes from './SignUpForm.module.scss';
 
 interface IFormInputs {
   Password: string;
@@ -22,11 +22,11 @@ const schema = yup.object().shape({
   Email: yup.string().email(),
   RepeatPassword: yup
     .string()
-    .oneOf([yup.ref("Password"), null], "Passwords must match")
+    .oneOf([yup.ref('Password'), null], 'Passwords must match')
     .required(),
   PersonalData: yup
     .boolean()
-    .oneOf([true], "For registration need your confirmation"),
+    .oneOf([true], 'For registration need your confirmation'),
 });
 
 export default function SignUpForm() {
@@ -54,21 +54,15 @@ export default function SignUpForm() {
           if (Object.prototype.hasOwnProperty.call(errorDetails, property)) {
             notification.open({
               message: 'Errors',
-              description:
-              `${property}: ${errorDetails[property]}`,
-              onClick: () => {
-                console.log('Notification Clicked!');
-              },
+              description: `${property}: ${errorDetails[property]}`,
+              onClick: () => {},
             });
-            console.log(`${property}: ${errorDetails[property]}`);
           }
         }
-        // do smthing
       }
       store.dispatch(updateUserInStore(response.user));
     });
   };
-
 
   return (
     <div className={classes.form_wrapper}>
@@ -80,7 +74,7 @@ export default function SignUpForm() {
             placeholder="Username"
             className={classes.form__input}
             id="signup__username"
-            {...register("Username")}
+            {...register('Username')}
           />
           <p className={classes.form__error}>{errors.Username?.message}</p>
         </label>
@@ -90,7 +84,7 @@ export default function SignUpForm() {
             placeholder="Email address"
             className={classes.form__input}
             id="signup__email"
-            {...register("Email")}
+            {...register('Email')}
           />
           <p className={classes.form__error}>{errors.Email?.message}</p>
         </label>
@@ -101,7 +95,7 @@ export default function SignUpForm() {
             className={classes.form__input}
             type="password"
             id="signup__password"
-            {...register("Password", { required: true })}
+            {...register('Password', { required: true })}
           />
           <p className={classes.form__error}>{errors.Password?.message}</p>
         </label>
@@ -115,7 +109,7 @@ export default function SignUpForm() {
             className={classes.form__input}
             type="password"
             id="signin__repeat_password"
-            {...register("RepeatPassword", { required: true })}
+            {...register('RepeatPassword', { required: true })}
           />
           <p className={classes.form__error}>
             {errors.RepeatPassword?.message}
@@ -123,19 +117,19 @@ export default function SignUpForm() {
         </label>
         <hr className={classes.line} />
         <label
-          className={classes["form__label-agreement"]}
+          className={classes['form__label-agreement']}
           htmlFor="signup__personal_data"
         >
           I agree to the processing of my personal information
           <input
-            className={classes["form__agreement-checkbox"]}
+            className={classes['form__agreement-checkbox']}
             type="checkbox"
             id="signup__personal_data"
-            {...register("PersonalData", { required: true })}
+            {...register('PersonalData', { required: true })}
           />
           <p className={classes.form__error}>{errors.PersonalData?.message}</p>
         </label>
-        <button className={classes["form__submit-button"]} type="submit">
+        <button className={classes['form__submit-button']} type="submit">
           Create
         </button>
       </form>
