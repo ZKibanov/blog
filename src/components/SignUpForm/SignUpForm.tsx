@@ -142,27 +142,3 @@ export default function SignUpForm() {
     </div>
   );
 }
-
-// const schema = yup.object().shape({
-//   loginPassword: yup.string().required(),
-//   loginEmail: yup.string().required(),
-// });
-
-// export default function SignUpForm() {
-//   const {
-//     register,
-//     handleSubmit,
-//     watch,
-//     formState: { errors },
-//   } = useForm<Inputs>({resolver: yupResolver(schema)});
-//   const onSubmit = (data: Inputs) => {
-
-//   };
-
-//   console.log(watch('signupUsername')); // watch input value by passing the name of it
-//   console.log(watch('signupPersonalData'));
-
-//   return (
-
-//   );
-// }
