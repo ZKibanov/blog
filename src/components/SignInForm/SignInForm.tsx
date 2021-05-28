@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { useCookies } from "react-cookie";
 import { Link, useHistory } from "react-router-dom";
+import { notification  } from 'antd';
 import { useForm } from "react-hook-form";
 import BlogApi from "../../api/BlogApiService";
 import { useAppSelector } from "../../hooks";
@@ -39,6 +40,14 @@ const SignInForm: FC = () => {
         const errorDetails = response.data.errors;
         for (const property in errorDetails) {
           if (Object.prototype.hasOwnProperty.call(errorDetails, property)) {
+            notification.open({
+              message: 'Errors',
+              description:
+              `${property}: ${errorDetails[property]}`,
+              onClick: () => {
+                console.log('Notification Clicked!');
+              },
+            });
             console.log(`${property}: ${errorDetails[property]}`);
           }
         }

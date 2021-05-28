@@ -1,4 +1,5 @@
 import React, { FC,useEffect,useState } from "react";
+import {  Popconfirm } from 'antd';
 import ReactMarkdown from "react-markdown";
 import { useHistory } from "react-router-dom";
 import { useAppSelector } from "../../hooks";
@@ -45,13 +46,17 @@ const SingleArticle: FC<Slug> = (props) => {
     requestedArticle[0] &&
     userData.username === requestedArticle[0].author.username ? (
       <div className={classes.article__menu}>
+
+
+<Popconfirm placement="rightBottom" title='Are you sure to delete this article?' onConfirm={deleteArticle} okText="Yes" cancelText="No">
         <button
         type="button"
           className={classes["article__menu_button--delete"]}
-          onClick={deleteArticle}
         >
           Delete
         </button>
+        </Popconfirm>
+
         <button
         type="button"
         className={classes["article__menu_button--edit"]}

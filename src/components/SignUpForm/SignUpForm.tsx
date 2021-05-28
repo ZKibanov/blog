@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { notification  } from 'antd';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import BlogApi from "../../api/BlogApiService";
@@ -46,21 +47,28 @@ export default function SignUpForm() {
         password: Password,
       },
     };
-    console.log(userInfo);
-    // BlogApi('users', 'POST', userInfo).then((response) => {
-    //   const errorDetails = response.data.errors;
-    //   if (response.status === 422) {
-    //     for (const property in errorDetails) {
-    //       if (Object.prototype.hasOwnProperty.call(errorDetails, property)) {
-    //         console.log(`${property}: ${errorDetails[property]}`);
-    //       }
-    //     }
-    //     // do smthing
-    //   }
-    //   store.dispatch(updateUserInStore(response.user));
-    // });
-    // console.log(JSON.stringify(user));
+    BlogApi('users', 'POST', userInfo).then((response) => {
+      const errorDetails = response.data.errors;
+      if (response.status === 422) {
+        for (const property in errorDetails) {
+          if (Object.prototype.hasOwnProperty.call(errorDetails, property)) {
+            notification.open({
+              message: 'Errors',
+              description:
+              `${property}: ${errorDetails[property]}`,
+              onClick: () => {
+                console.log('Notification Clicked!');
+              },
+            });
+            console.log(`${property}: ${errorDetails[property]}`);
+          }
+        }
+        // do smthing
+      }
+      store.dispatch(updateUserInStore(response.user));
+    });
   };
+
 
   return (
     <div className={classes.form_wrapper}>
