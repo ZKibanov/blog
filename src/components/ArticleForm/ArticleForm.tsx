@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, useState, useEffect } from "react";
 import { Method} from "axios";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Article } from "../../types";
 import { useAppSelector } from "../../hooks";
 import blogApi from "../../api/BlogApiService";
@@ -19,22 +19,22 @@ type Inputs = {
 };
 
 
-interface Slug {
-  slug?: string;
+interface Params{
+  slug?:string
 }
 
-const NewArticle: FC<Slug> = (props) => {
+const NewArticle: FC = (props) => {
   const isLoading = useAppSelector((state) => state.services.isLoading);
   const history = useHistory();
   const articlesFromStore = useAppSelector((state) => state.data.articles);
   const [articleContent,setArticleContent] = useState<Article | undefined >() 
   const [formTagList, setTagList] = useState<string[]>([]);
-
+  const params:Params = useParams();
 
   useEffect(()=>{
-    if (props.slug){
-      const requestedArticle = articlesFromStore.filter(
-        (el) => el.slug === props.slug
+    if (params && params.slug){
+            const requestedArticle = articlesFromStore.filter(
+        (el) => el.slug === params.slug
       );
       if (requestedArticle.length > 0) {
         /* eslint-disable prefer-destructuring */
@@ -44,7 +44,7 @@ const NewArticle: FC<Slug> = (props) => {
           }
         /* eslint-enable prefer-destructuring */
       } else {
-        blogApi(`articles/${props.slug}`).then(
+        blogApi(`articles/${params.slug}`).then(
           (response => {
             setArticleContent(response.article)
             if (response.article.tagList){
@@ -93,9 +93,9 @@ const NewArticle: FC<Slug> = (props) => {
      
     let requestMethod:Method;
     let endpoint;
-    if (props.slug){
+    if (params.slug){
       requestMethod = 'PUT'; 
-      endpoint = `articles/${props.slug}`
+      endpoint = `articles/${params.slug}`
     } else {
       requestMethod = 'POST'; 
       endpoint ="articles";
@@ -111,8 +111,8 @@ const NewArticle: FC<Slug> = (props) => {
           }
         }
       }
-      if (response.article && props.slug) {
-        const newArticles = articlesFromStore.map(article => article.slug === props.slug? response.article : article)
+      if (response.article && params.slug) {
+        const newArticles = articlesFromStore.map(article => article.slug === params.slug? response.article : article)
         store.dispatch(setArticlesToStore(newArticles));
       } 
       history.goBack()

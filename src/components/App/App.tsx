@@ -1,11 +1,10 @@
-import React, { FC,ReactChild,ReactNode, useEffect } from "react";
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import React, { FC, useEffect } from "react";
+import { BrowserRouter, Route, Redirect,RouteProps } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import BlogApi from "../../api/BlogApiService";
 import { manageUserToStore } from "../../utils";
 import { useAppSelector } from "../../hooks";
 import Articles from "../Articles/Articles";
-import ArticleForm from "../ArticleForm/ArticleForm";
 import Header from "../Header/Header";
 import SignInForm from "../SignInForm/SignInForm";
 import SignUpForm from "../SignUpForm/SignUpForm";
@@ -14,17 +13,13 @@ import "antd/dist/antd.css";
 import "normalize.css";
 import SingleArticle from "../SingleArticle/SingleArticle";
 import Profile from "../Profile/Profile";
+import NewArticle from "../ArticleForm/ArticleForm";
 
 const App: FC = () => {
   const [cookie] = useCookies(["Autorization"]);
   const userData = useAppSelector((state) => state.data.user);
 
-  interface PrivateRouteProps{
-    children?:ReactChild,
-    path: string,
-  }
-
-const PrivateRoute:FC<PrivateRouteProps>=({ children, ...rest }) => {
+const PrivateRoute:FC<RouteProps> =({ children, ...rest }) => {
   const auth = userData;
   return (
     <Route
@@ -64,8 +59,12 @@ const PrivateRoute:FC<PrivateRouteProps>=({ children, ...rest }) => {
         <Route path="/articles" exact component={Articles} />
 
         <PrivateRoute path="/new-article">
-        <ArticleForm />
-          </PrivateRoute> 
+        <NewArticle/>
+        </PrivateRoute>
+
+        <PrivateRoute  path="/articles/:slug/edit">
+        <NewArticle/>
+        </PrivateRoute>
 
         <Route path="/profile" component={Profile} />
 
@@ -73,21 +72,11 @@ const PrivateRoute:FC<PrivateRouteProps>=({ children, ...rest }) => {
           path="/articles/:slug"
           exact
           render={({ match, history, location }) => {
-            console.log(match.params.slug);
             const {slug} = match.params
             return <SingleArticle slug={slug} />;
           }}
         />
 
-<PrivateRoute path="/articles/:slug/edit">
-        <Route
-        path="/articles/:slug/edit"
-        render={({ match, history, location }) => {
-            const {slug} = match.params
-            return <ArticleForm slug={slug}/>;
-        }}
-        />
-          </PrivateRoute> 
         <Route path="/" exact component={Articles} />
       </BrowserRouter>
     </>

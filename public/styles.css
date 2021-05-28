@@ -52,7 +52,8 @@
          url('../fonts/roboto-v27-latin_cyrillic-500.ttf') format('truetype'), /* Safari, Android, iOS */
          url('../fonts/roboto-v27-latin_cyrillic-500.svg#Roboto') format('svg'); /* Legacy iOS */
   }
-  .htlm{
+
+  .html{
     background-color:#EBEEF3; 
   }
   #root{
@@ -62,5 +63,4 @@
 
 .body{
   background-color:#EBEEF3; 
-
 }
