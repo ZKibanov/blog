@@ -39,7 +39,7 @@ const Header: FC = () => {
           </li>
           <li className={classes.header__nav_item}>
             <button
-              className={classes.header__nav_button}
+              className={classes["header__nav_button-log-out"]}
               type="button"
               onClick={() => {
                 store.dispatch(updateUserInStore(null));
@@ -55,12 +55,12 @@ const Header: FC = () => {
     return (
       <ul className={classes.header__nav}>
         <li className={classes.header__nav_item}>
-          <Link className={classes.header__nav_link} to="/sign-in">
+          <Link className={classes.header__link_flat} to="/sign-in">
             Sign In{' '}
           </Link>
         </li>
         <li className={classes.header__nav_item}>
-          <Link className={classes.header__nav_link} to="/sign-up">
+          <Link className={classes["header__nav_link-sign-up"]} to="/sign-up">
             {' '}
             Sign Up{' '}
           </Link>

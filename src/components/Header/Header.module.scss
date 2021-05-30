@@ -26,27 +26,6 @@ $safe-operation: #52c41a;
   list-style: none;
 }
 
-.header__nav_link {
-  margin-left: 8px;
-  box-sizing: border-box;
-  padding: 16px 12px;
-  font-family: 'Inter';
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 28px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: black;
-  cursor: pointer;
-  width: 160px;
-  background-color: $background-color-base;
-  text-align: center;
-  vertical-align: bottom;
-  border: 1px solid $safe-operation;
-  box-sizing: border-box;
-  border-radius: 5px;
-}
 
 .header__nav_link_small {
   margin-left: 8px;
@@ -60,27 +39,6 @@ $safe-operation: #52c41a;
   line-height: 28px;
   letter-spacing: 0em;
   text-align: left;
-  cursor: pointer;
-  width: 160px;
-  background-color: $background-color-base;
-  text-align: center;
-  vertical-align: bottom;
-  border: 1px solid $safe-operation;
-  box-sizing: border-box;
-  border-radius: 5px;
-}
-.header__nav_button {
-  margin-left: 27px;
-  box-sizing: border-box;
-  padding: 12px;
-  font-family: 'Inter';
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 28px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: black;
   cursor: pointer;
   width: 160px;
   background-color: $background-color-base;
@@ -118,4 +76,68 @@ $safe-operation: #52c41a;
 }
 
 .header__home_link button {
+    margin-left: 8px;
+    box-sizing: border-box;
+    padding: 16px 12px;
+    font-family: 'Inter';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: black;
+    cursor: pointer;
+    width: 160px;
+    background-color: $background-color-base;
+    text-align: center;
+    vertical-align: bottom;
+    border: 1px solid $safe-operation;
+    box-sizing: border-box;
+    border-radius: 5px;
+  
+}
+
+.header__nav_button-log-out {
+  margin-left: 27px;
+  box-sizing: border-box;
+  padding: 12px;
+  font-family: 'Inter';
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: black;
+  cursor: pointer;
+  width: 160px;
+  background-color: $background-color-base;
+  text-align: center;
+  vertical-align: bottom;
+  border: 1px solid black;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.header__nav_link-sign-up{
+  margin-left: 8px;
+  box-sizing: border-box;
+  padding: 16px 12px;
+  font-family: 'Inter';
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: $safe-operation;
+  cursor: pointer;
+  width: 160px;
+  background-color: $background-color-base;
+  text-align: center;
+  vertical-align: bottom;
+  border: 1px solid $safe-operation;
+  box-sizing: border-box;
+  border-radius: 5px;
 }

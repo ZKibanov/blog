@@ -7,6 +7,7 @@ import { useAppSelector } from '../../hooks';
 import blogApi from '../../api/BlogApiService';
 import classes from './ArticleForm.module.scss';
 import { setArticlesToStore } from '../../store/dataReducer';
+import ErrorIndicator from '../ErrorIndicator/ErrorIndicator';
 import store from '../../store/store';
 
 type Inputs = {
@@ -100,15 +101,11 @@ const NewArticle: FC = (props) => {
     }
 
     blogApi(endpoint, requestMethod, newArticle).then((response) => {
-      // need to change this
-      if (response.status === 422) {
-        const errorDetails = response.data.errors;
-        for (const property in errorDetails) {
-          if (Object.prototype.hasOwnProperty.call(errorDetails, property)) {
-            console.log(`${property}: ${errorDetails[property]}`);
-          }
+        if (response.status === 422) {
+          const errorDetails = response.data.errors;
+          ErrorIndicator(errorDetails)
         }
-      }
+      
       if (response.article && params.slug) {
         const newArticles = articlesFromStore.map((article) =>
           article.slug === params.slug ? response.article : article
