@@ -51,6 +51,7 @@ const NewArticle: FC = (props) => {
         });
       }
     }
+    // eslint-disable-next-line
   }, []);
 
   const {
@@ -101,11 +102,11 @@ const NewArticle: FC = (props) => {
     }
 
     blogApi(endpoint, requestMethod, newArticle).then((response) => {
-        if (response.status === 422) {
-          const errorDetails = response.data.errors;
-          ErrorIndicator(errorDetails)
-        }
-      
+      if (response.status === 422) {
+        const errorDetails = response.data.errors;
+        ErrorIndicator(errorDetails);
+      }
+
       if (response.article && params.slug) {
         const newArticles = articlesFromStore.map((article) =>
           article.slug === params.slug ? response.article : article

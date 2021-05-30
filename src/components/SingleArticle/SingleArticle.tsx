@@ -30,7 +30,8 @@ const SingleArticle: FC<Slug> = (props) => {
         setArticleContent(response.article)
       );
     }
-  }, [articlesFromStore]);
+    // eslint-disable-next-line
+  }, [articlesFromStore, slug]);
 
   const deleteArticle = async () => {
     blogApi(`articles/${slug}`, 'DELETE').then((response) => history.goBack());

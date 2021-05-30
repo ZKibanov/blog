@@ -50,7 +50,7 @@ export default function SignUpForm() {
     BlogApi('users', 'POST', userInfo).then((response) => {
       if (response.status === 422) {
         const errorDetails = response.data.errors;
-        ErrorIndicator(errorDetails)
+        ErrorIndicator(errorDetails);
       }
 
       store.dispatch(updateUserInStore(response.user));

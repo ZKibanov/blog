@@ -16,7 +16,8 @@ type Inputs = {
 const SignInForm: FC = () => {
   const isLoading = useAppSelector((state) => state.services.isLoading);
   const history = useHistory();
-  const [cookies, setCookie, removeCookie] = useCookies(['Token']);
+  // eslint-disable-next-line
+  const [, setCookie, removeCookie] = useCookies(['Token']);
 
   const {
     register,
@@ -36,7 +37,7 @@ const SignInForm: FC = () => {
     BlogApi('users/login', 'POST', userInfo).then((response) => {
       if (response.status === 422) {
         const errorDetails = response.data.errors;
-        ErrorIndicator(errorDetails)
+        ErrorIndicator(errorDetails);
       }
 
       if (response.user) {

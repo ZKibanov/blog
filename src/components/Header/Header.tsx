@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useCookies } from 'react-cookie';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Avatar } from 'antd';
 import { useAppSelector } from '../../hooks';
 import store from '../../store/store';
@@ -10,7 +10,8 @@ import classes from './Header.module.scss';
 
 const Header: FC = () => {
   const userData = useAppSelector((state) => state.data.user);
-  const [cookies, setCookie, removeCookie] = useCookies(['Token']);
+  const [, , removeCookie] = useCookies(['Token']);
+  const history = useHistory();
 
   const getHeaderContent = (user: User | null) => {
     if (user) {
@@ -39,11 +40,12 @@ const Header: FC = () => {
           </li>
           <li className={classes.header__nav_item}>
             <button
-              className={classes["header__nav_button-log-out"]}
+              className={classes['header__nav_button-log-out']}
               type="button"
               onClick={() => {
                 store.dispatch(updateUserInStore(null));
                 removeCookie('Authorization');
+                history.go(0);
               }}
             >
               Log Out
@@ -60,7 +62,7 @@ const Header: FC = () => {
           </Link>
         </li>
         <li className={classes.header__nav_item}>
-          <Link className={classes["header__nav_link-sign-up"]} to="/sign-up">
+          <Link className={classes['header__nav_link-sign-up']} to="/sign-up">
             {' '}
             Sign Up{' '}
           </Link>

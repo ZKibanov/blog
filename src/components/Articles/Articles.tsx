@@ -6,6 +6,7 @@ import { setArticlesToStore } from '../../store/dataReducer';
 import Card from '../Card';
 import blogApi from '../../api/BlogApiService';
 import store from '../../store/store';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import classes from './Articles.module.scss';
 
 const Articles: FC = () => {
@@ -30,7 +31,9 @@ const Articles: FC = () => {
     const { ...props } = article;
     return (
       <div key={article.slug} className={classes.article}>
-        <Card {...props} />
+        <ErrorBoundary>
+          <Card {...props} />
+        </ErrorBoundary>
       </div>
     );
   });
