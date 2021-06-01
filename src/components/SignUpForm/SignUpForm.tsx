@@ -1,11 +1,12 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import BlogApi from '../../api/BlogApiService';
-import { updateUserInStore } from '../../store/dataReducer';
+import { manageUserToStore } from '../../utils';
 import ErrorIndicator from '../ErrorIndicator/ErrorIndicator';
-import store from '../../store/store';
 import classes from './SignUpForm.module.scss';
 
 interface IFormInputs {
@@ -37,6 +38,9 @@ export default function SignUpForm() {
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
+  const history = useHistory();
+  const [, setCookie, removeCookie] = useCookies(['Token']);
+
 
   const onSubmit = (data: IFormInputs) => {
     const { Username, Password, Email } = data;
@@ -47,13 +51,17 @@ export default function SignUpForm() {
         password: Password,
       },
     };
-    BlogApi('users', 'POST', userInfo).then((response) => {
+    BlogApi('users', 'POST', userInfo).then(response => {
       if (response.status === 422) {
         const errorDetails = response.data.errors;
         ErrorIndicator(errorDetails);
-      }
-
-      store.dispatch(updateUserInStore(response.user));
+      } 
+      if (response.user) {
+        const { username, email, token, image } = response.user;
+        setCookie('Authorization', token, { secure: true });
+        manageUserToStore(username, email, image);
+        history.push('/')
+    }
     });
   };
 
