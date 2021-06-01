@@ -1,6 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { notification } from 'antd';
+import { useAppSelector } from '../../hooks';
 import BlogApi from '../../api/BlogApiService';
 import { updateUserInStore } from '../../store/dataReducer';
 import store from '../../store/store';
@@ -13,12 +16,35 @@ type Inputs = {
   newUsername: string;
 };
 
+const schema = yup.object().shape({
+  newUsername: yup.string().min(3).max(20).required(),
+  newPassword: yup.string().min(8).max(40).required(),
+  signupEmail: yup
+    .string()
+    /* eslint-disable-next-line */
+    .matches(
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      'Email must be valid email'
+    )
+    .required(),
+  avatarImageUrl: yup
+    .string()
+    .matches(
+      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+      'Enter correct url!'
+    ),
+});
+
 export default function Profile() {
+  const oldUserInfo = useAppSelector((state) => state.data.user);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({
+    resolver: yupResolver(schema),
+  });
   const onSubmit = (data: Inputs) => {
     const {
       newUsername: username,
@@ -26,6 +52,7 @@ export default function Profile() {
       avatarImageUrl: image,
       signupEmail: email,
     } = data;
+
     const userInfo = {
       user: {
         bio: null,
@@ -60,17 +87,21 @@ export default function Profile() {
           <input
             className={classes.form__input}
             id="new__username"
+            defaultValue={oldUserInfo?.username || ''}
             {...register('newUsername', { required: false })}
           />
+          <p className={classes.form__error}>{errors.newUsername?.message}</p>
         </label>
         <label className={classes.form__label} htmlFor="signup__email">
           Email address
           <input
             className={classes.form__input}
             id="signup__email"
-            type="email"
+            placeholder="Email address"
+            defaultValue={oldUserInfo?.email || ''}
             {...register('signupEmail', { required: false })}
           />
+          <p className={classes.form__error}>{errors.signupEmail?.message}</p>
         </label>
         <label className={classes.form__label} htmlFor="new__password">
           New password
@@ -80,6 +111,7 @@ export default function Profile() {
             id="new__password"
             {...register('newPassword', { required: false })}
           />
+          <p className={classes.form__error}>{errors.newPassword?.message}</p>
         </label>
         <label className={classes.form__label} htmlFor="avatar__image__url">
           Avatar image(url)
@@ -87,8 +119,12 @@ export default function Profile() {
             className={classes.form__input}
             type="text"
             id="avatar__image__url"
+            defaultValue={oldUserInfo?.image || ''}
             {...register('avatarImageUrl', { required: false })}
           />
+          <p className={classes.form__error}>
+            {errors.avatarImageUrl?.message}
+          </p>
         </label>
 
         <button className={classes['form__submit-button']} type="submit">

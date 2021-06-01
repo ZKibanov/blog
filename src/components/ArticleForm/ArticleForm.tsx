@@ -22,7 +22,7 @@ interface Params {
   slug?: string;
 }
 
-const NewArticle: FC = (props) => {
+const NewArticle: FC = () => {
   const isLoading = useAppSelector((state) => state.services.isLoading);
   const history = useHistory();
   const articlesFromStore = useAppSelector((state) => state.data.articles);
@@ -176,7 +176,7 @@ const NewArticle: FC = (props) => {
             onClick={() => {
               setTagList((tags) => {
                 const resultArray = [...tags];
-                if (singleTag.trim().length > 0) {
+                if (singleTag && singleTag.trim().length > 0) {
                   resultArray.push(singleTag.trim());
                 }
                 return Array.from(new Set(resultArray));

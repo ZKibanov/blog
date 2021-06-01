@@ -5,7 +5,7 @@ $info-color: #1890ff;
   display: flex;
   flex-direction: column;
   width: 384px;
-  height: 498px;
+  min-height: 498px;
   background-color: $background-color-base;
   margin: 59px auto;
   border-radius: 6px;
@@ -74,8 +74,14 @@ $info-color: #1890ff;
   letter-spacing: 0em;
   text-align: center;
   margin-top: 21px;
+  margin-bottom: 21px;
 }
 
 .form_wrapper {
   height: 897px;
+}
+
+.form__error {
+  color: red;
+  margin: 0;
 }

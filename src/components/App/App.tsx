@@ -1,5 +1,11 @@
 import React, { FC, useEffect } from 'react';
-import { BrowserRouter, Route, Redirect, RouteProps } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Route,
+  Redirect,
+  RouteProps,
+  Switch,
+} from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import BlogApi from '../../api/BlogApiService';
 import { manageUserToStore } from '../../utils';
@@ -20,9 +26,10 @@ const App: FC = () => {
   const userData = useAppSelector((state) => state.data.user);
 
   const PrivateRoute: FC<RouteProps> = ({ children, ...rest }) => {
-    const auth = userData;
+    const auth = cookie.Authorization || userData;
     return (
       <Route
+        exact
         {...rest}
         render={({ location }) =>
           auth ? (
@@ -54,30 +61,33 @@ const App: FC = () => {
     <>
       <BrowserRouter>
         <Header />
-        <Route path="/sign-up" component={SignUpForm} />
-        <Route path="/sign-in" component={SignInForm} />
-        <Route path="/articles" exact component={Articles} />
+        <Switch>
+          <Route path="/sign-up" component={SignUpForm} />
+          <Route path="/sign-in" component={SignInForm} />
+          <Route path="/articles" exact component={Articles} />
+          <PrivateRoute path="/new-article">
+            <NewArticle />
+          </PrivateRoute>
 
-        <PrivateRoute path="/new-article">
-          <NewArticle />
-        </PrivateRoute>
+          <PrivateRoute path="/articles/:slug/edit">
+            <NewArticle />
+          </PrivateRoute>
 
-        <PrivateRoute path="/articles/:slug/edit">
-          <NewArticle />
-        </PrivateRoute>
+          <PrivateRoute path="/profile">
+            <Profile />
+          </PrivateRoute>
 
-        <Route path="/profile" component={Profile} />
+          <Route
+            path="/articles/:slug"
+            exact
+            render={({ match, history, location }) => {
+              const { slug } = match.params;
+              return <SingleArticle slug={slug} />;
+            }}
+          />
 
-        <Route
-          path="/articles/:slug"
-          exact
-          render={({ match, history, location }) => {
-            const { slug } = match.params;
-            return <SingleArticle slug={slug} />;
-          }}
-        />
-
-        <Route path="/" exact component={Articles} />
+          <Route path="/" exact component={Articles} />
+        </Switch>
       </BrowserRouter>
     </>
   );

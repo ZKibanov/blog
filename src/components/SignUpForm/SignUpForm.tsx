@@ -20,7 +20,15 @@ interface IFormInputs {
 const schema = yup.object().shape({
   Username: yup.string().min(3).max(20).required(),
   Password: yup.string().min(8).max(40).required(),
-  Email: yup.string().email(),
+  Email: yup
+    .string()
+    /* eslint-disable-next-line */
+    .matches(
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      'Email must be valid email'
+    )
+    .required(),
+
   RepeatPassword: yup
     .string()
     .oneOf([yup.ref('Password'), null], 'Passwords must match')
@@ -39,8 +47,8 @@ export default function SignUpForm() {
     resolver: yupResolver(schema),
   });
   const history = useHistory();
+  /* eslint-disable-next-line */
   const [, setCookie, removeCookie] = useCookies(['Token']);
-
 
   const onSubmit = (data: IFormInputs) => {
     const { Username, Password, Email } = data;
@@ -51,17 +59,17 @@ export default function SignUpForm() {
         password: Password,
       },
     };
-    BlogApi('users', 'POST', userInfo).then(response => {
+    BlogApi('users', 'POST', userInfo).then((response) => {
       if (response.status === 422) {
         const errorDetails = response.data.errors;
         ErrorIndicator(errorDetails);
-      } 
+      }
       if (response.user) {
         const { username, email, token, image } = response.user;
         setCookie('Authorization', token, { secure: true });
         manageUserToStore(username, email, image);
-        history.push('/')
-    }
+        history.push('/');
+      }
     });
   };
 
