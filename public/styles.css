@@ -53,9 +53,9 @@
          url('../fonts/roboto-v27-latin_cyrillic-500.svg#Roboto') format('svg'); /* Legacy iOS */
   }
 
-  .html{
-    background-color:#EBEEF3; 
-  }
+  html{
+background-color: white;
+    }
   #root{
     background-color: #EBEEF3;
     font-family: 'Inter';
@@ -63,4 +63,6 @@
 
 .body{
   background-color:#EBEEF3; 
+  margin:0 auto;
+  border:1px solid #EBEEF3;
 }

@@ -18,7 +18,7 @@ type Inputs = {
 
 const schema = yup.object().shape({
   newUsername: yup.string().min(3).max(20).required(),
-  newPassword: yup.string().min(8).max(40).required(),
+  newPassword: yup.string().min(8).max(40),
   signupEmail: yup
     .string()
     .matches(
@@ -110,6 +110,7 @@ export default function Profile() {
             className={classes.form__input}
             type="password"
             id="new__password"
+            defaultValue=''
             {...register('newPassword', { required: false })}
           />
           <p className={classes.form__error}>{errors.newPassword?.message}</p>
@@ -131,7 +132,6 @@ export default function Profile() {
         <button className={classes['form__submit-button']} type="submit">
           Save
         </button>
-        {errors.newPassword && <span>This field is required</span>}
       </form>
     </div>
   );

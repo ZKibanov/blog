@@ -113,7 +113,7 @@ const NewArticle: FC = () => {
         );
         store.dispatch(setArticlesToStore(newArticles));
       }
-      history.goBack();
+      history.push('/');
     });
   };
 

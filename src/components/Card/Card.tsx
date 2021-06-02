@@ -31,31 +31,34 @@ const Card: FC<Article> = (props: Article) => {
   const articlesObject = useAppSelector((state) => state.data.articles);
   const user = useAppSelector((state) => state.data.user);
 
-  const setLike = async (someArticle: Article, articleIndex: number) => {
-    const favValue: boolean = someArticle.favorited;
-    const { slug: newSlug } = someArticle;
+  const addReaction = async () => {
+    const oldArticlesObject = JSON.parse(JSON.stringify(articlesObject))
+    const newArticles = articlesObject.map((article) => {
+      if (article.slug === slug) {
+        const counter=article.favorited? -1: 1;
+        return { ...article,
+          favorited:!article.favorited,
+          favoritesCount:favoritesCount+counter,    
+      }
+    }
+      return article;
+    });
+    store.dispatch(setArticlesToStore(newArticles));
+
     const newArticleObject =
-      favValue === false
+      favorited === false
         ? await blogApiWithoutLoadingIndication(
-            `/articles/${newSlug}/favorite`,
+            `/articles/${slug}/favorite`,
             'POST'
           )
         : await blogApiWithoutLoadingIndication(
-            `/articles/${newSlug}/favorite`,
+            `/articles/${slug}/favorite`,
             'DELETE'
           );
-    const newArticles = [...articlesObject];
-    newArticles[articleIndex] = newArticleObject.article;
-    store.dispatch(setArticlesToStore(newArticles));
-  };
 
-  const addReaction = () => {
-    articlesObject.map((article, i) => {
-      if (article.slug === slug) {
-        setLike(article, i);
+      if (!newArticleObject.article){
+        store.dispatch(setArticlesToStore(oldArticlesObject));
       }
-      return article;
-    });
   };
 
   const isAuthorized = !!user;
