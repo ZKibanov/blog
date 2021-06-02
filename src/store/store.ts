@@ -7,7 +7,9 @@ const store = configureStore({
     data: dataSlice,
     services: serviceSlice,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
   devTools: true,
+
 });
 
 export type RootState = ReturnType<typeof store.getState>;

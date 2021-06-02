@@ -21,8 +21,8 @@ const schema = yup.object().shape({
   newPassword: yup.string().min(8).max(40).required(),
   signupEmail: yup
     .string()
-    /* eslint-disable-next-line */
     .matches(
+          /* eslint-disable-next-line */
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       'Email must be valid email'
     )
@@ -30,6 +30,7 @@ const schema = yup.object().shape({
   avatarImageUrl: yup
     .string()
     .matches(
+          /* eslint-disable-next-line */
       /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
       'Enter correct url!'
     ),
