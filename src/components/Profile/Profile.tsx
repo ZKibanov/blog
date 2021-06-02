@@ -22,18 +22,16 @@ const schema = yup.object().shape({
   signupEmail: yup
     .string()
     .matches(
-          /* eslint-disable-next-line */
+      /* eslint-disable-next-line */
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       'Email must be valid email'
     )
     .required(),
-  avatarImageUrl: yup
-    .string()
-    .matches(
-          /* eslint-disable-next-line */
-      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-      'Enter correct url!'
-    ),
+  avatarImageUrl: yup.string().matches(
+    /* eslint-disable-next-line */
+    /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+    'Enter correct url!'
+  ),
 });
 
 export default function Profile() {
@@ -110,7 +108,7 @@ export default function Profile() {
             className={classes.form__input}
             type="password"
             id="new__password"
-            defaultValue=''
+            defaultValue=""
             {...register('newPassword', { required: false })}
           />
           <p className={classes.form__error}>{errors.newPassword?.message}</p>

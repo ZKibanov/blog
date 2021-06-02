@@ -32,15 +32,16 @@ const Card: FC<Article> = (props: Article) => {
   const user = useAppSelector((state) => state.data.user);
 
   const addReaction = async () => {
-    const oldArticlesObject = JSON.parse(JSON.stringify(articlesObject))
+    const oldArticlesObject = JSON.parse(JSON.stringify(articlesObject));
     const newArticles = articlesObject.map((article) => {
       if (article.slug === slug) {
-        const counter=article.favorited? -1: 1;
-        return { ...article,
-          favorited:!article.favorited,
-          favoritesCount:favoritesCount+counter,    
+        const counter = article.favorited ? -1 : 1;
+        return {
+          ...article,
+          favorited: !article.favorited,
+          favoritesCount: favoritesCount + counter,
+        };
       }
-    }
       return article;
     });
     store.dispatch(setArticlesToStore(newArticles));
@@ -56,9 +57,9 @@ const Card: FC<Article> = (props: Article) => {
             'DELETE'
           );
 
-      if (!newArticleObject.article){
-        store.dispatch(setArticlesToStore(oldArticlesObject));
-      }
+    if (!newArticleObject.article) {
+      store.dispatch(setArticlesToStore(oldArticlesObject));
+    }
   };
 
   const isAuthorized = !!user;
