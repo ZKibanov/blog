@@ -2,8 +2,6 @@ import React, { FC, useEffect } from 'react';
 import {
   BrowserRouter,
   Route,
-  Redirect,
-  RouteProps,
   Switch,
 } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
@@ -19,33 +17,12 @@ import 'antd/dist/antd.css';
 import 'normalize.css';
 import SingleArticle from '../SingleArticle/SingleArticle';
 import Profile from '../Profile/Profile';
-import NewArticle from '../ArticleForm/ArticleForm';
+import ArticleForm from '../ArticleForm/ArticleForm';
+import PrivateRoute from '../PrivateRoute/PrivateRoute'
 
 const App: FC = () => {
   const [cookie] = useCookies(['Autorization']);
   const userData = useAppSelector((state) => state.data.user);
-
-  const PrivateRoute: FC<RouteProps> = ({ children, ...rest }) => {
-    const auth = cookie.Authorization || userData;
-    return (
-      <Route
-        exact
-        {...rest}
-        render={({ location }) =>
-          auth ? (
-            children
-          ) : (
-            <Redirect
-              to={{
-                pathname: '/sign-in',
-                state: { from: location },
-              }}
-            />
-          )
-        }
-      />
-    );
-  };
 
   useEffect(() => {
     if (cookie.Authorization) {
@@ -66,11 +43,11 @@ const App: FC = () => {
           <Route path="/sign-in" component={SignInForm} />
           <Route path="/articles" exact component={Articles} />
           <PrivateRoute path="/new-article">
-            <NewArticle />
+            <ArticleForm />
           </PrivateRoute>
 
           <PrivateRoute path="/articles/:slug/edit">
-            <NewArticle />
+            <ArticleForm />
           </PrivateRoute>
 
           <PrivateRoute path="/profile">

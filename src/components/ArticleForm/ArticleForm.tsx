@@ -22,12 +22,12 @@ interface Params {
   slug?: string;
 }
 
-const NewArticle: FC = () => {
+const ArticleForm: FC = () => {
   const isLoading = useAppSelector((state) => state.services.isLoading);
   const history = useHistory();
   const articlesFromStore = useAppSelector((state) => state.data.articles);
   const [articleContent, setArticleContent] = useState<Article | undefined>();
-  const [formTagList, setTagList] = useState<string[]>([]);
+  const [formTagList, setFormTagList] = useState<string[]>([]);
   const params: Params = useParams();
 
   useEffect(() => {
@@ -39,14 +39,14 @@ const NewArticle: FC = () => {
         /* eslint-disable prefer-destructuring */
         setArticleContent(requestedArticle[0]);
         if (requestedArticle[0].tagList) {
-          setTagList(requestedArticle[0].tagList);
+          setFormTagList(requestedArticle[0].tagList);
         }
         /* eslint-enable prefer-destructuring */
       } else {
         blogApi(`articles/${params.slug}`).then((response) => {
           setArticleContent(response.article);
           if (response.article.tagList) {
-            setTagList(response.article.tagList);
+            setFormTagList(response.article.tagList);
           }
         });
       }
@@ -69,7 +69,7 @@ const NewArticle: FC = () => {
       <p className={classes.tag}>{tag}</p>
       <button
         onClick={() =>
-          setTagList((tags) => tags.filter((currentTag) => currentTag !== tag))
+          setFormTagList((tags) => tags.filter((currentTag) => currentTag !== tag))
         }
         className={classes['article__form_delete-button']}
         type="button"
@@ -174,7 +174,7 @@ const NewArticle: FC = () => {
           </button>
           <button
             onClick={() => {
-              setTagList((tags) => {
+              setFormTagList((tags) => {
                 const resultArray = [...tags];
                 if (singleTag && singleTag.trim().length > 0) {
                   resultArray.push(singleTag.trim());
@@ -202,4 +202,4 @@ const NewArticle: FC = () => {
   );
 };
 
-export default NewArticle;
+export default ArticleForm;

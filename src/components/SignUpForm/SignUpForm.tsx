@@ -4,7 +4,8 @@ import { useHistory } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import BlogApi from '../../api/BlogApiService';
+import RequestApiService from '../../api/RequestApiService'
+import blogApi from '../../api/BlogApiService';
 import { manageUserToStore } from '../../utils';
 import ErrorIndicator from '../ErrorIndicator/ErrorIndicator';
 import classes from './SignUpForm.module.scss';
@@ -59,18 +60,8 @@ export default function SignUpForm() {
         password: Password,
       },
     };
-    BlogApi('users', 'POST', userInfo).then((response) => {
-      if (response.status === 422) {
-        const errorDetails = response.data.errors;
-        ErrorIndicator(errorDetails);
-      }
-      if (response.user) {
-        const { username, email, token, image } = response.user;
-        setCookie('Authorization', token, { secure: true });
-        manageUserToStore(username, email, image);
-        history.push('/');
-      }
-    });
+
+    RequestApiService.signUp(userInfo)
   };
 
   return (
