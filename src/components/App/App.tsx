@@ -1,11 +1,7 @@
 import React, { FC, useEffect } from 'react';
-import {
-  BrowserRouter,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import BlogApi from '../../api/BlogApiService';
+import RequestApiService from '../../api/RequestApiService';
 import { manageUserToStore } from '../../utils';
 import { useAppSelector } from '../../hooks';
 import Articles from '../Articles/Articles';
@@ -18,7 +14,7 @@ import 'normalize.css';
 import SingleArticle from '../SingleArticle/SingleArticle';
 import Profile from '../Profile/Profile';
 import ArticleForm from '../ArticleForm/ArticleForm';
-import PrivateRoute from '../PrivateRoute/PrivateRoute'
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 const App: FC = () => {
   const [cookie] = useCookies(['Autorization']);
@@ -26,7 +22,7 @@ const App: FC = () => {
 
   useEffect(() => {
     if (cookie.Authorization) {
-      BlogApi('user', 'get', undefined).then((response) => {
+      RequestApiService.fetchUser().then((response) => {
         if (response.user) {
           const { username, email, image } = response.user;
           manageUserToStore(username, email, image);

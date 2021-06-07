@@ -4,7 +4,7 @@ import * as actions from '../store/serviceReducer';
 import store from '../store/store';
 import { Article, User } from '../types';
 
-interface ServerResponse extends AxiosResponse {
+export interface ServerResponse extends AxiosResponse {
   articles?: Article[];
   user?: User;
   article: Article;
@@ -17,10 +17,11 @@ interface RequestHeaders {
 const blogApi = async (
   url: string,
   method: Method = 'get',
-  data: object | string | undefined = undefined
+  data: object | string | undefined = undefined,
+  noLoadingIndication?: boolean
 ): Promise<ServerResponse> => {
   try {
-    store.dispatch(actions.setLoading());
+    if (!noLoadingIndication) store.dispatch(actions.setLoading());
     const getHeaders = (): RequestHeaders => {
       const authToken = getCookie('Authorization');
       if (authToken) {
@@ -39,40 +40,10 @@ const blogApi = async (
       headers: getHeaders(),
       withCredentials: true,
     });
-    store.dispatch(actions.setNotLoading());
+    if (!noLoadingIndication) store.dispatch(actions.setNotLoading());
     return response.data;
   } catch (err) {
-    store.dispatch(actions.setNotLoading());
-    return err.response;
-  }
-};
-
-export const blogApiWithoutLoadingIndication = async (
-  url: string,
-  method: Method = 'get',
-  data: object | string | undefined = undefined
-): Promise<ServerResponse> => {
-  try {
-    const getHeaders = (): RequestHeaders => {
-      const authToken = getCookie('Authorization');
-      if (authToken) {
-        return {
-          'Content-Type': 'application/json',
-          Authorization: `Token ${authToken}`,
-        };
-      }
-      return { 'Content-Type': 'application/json' };
-    };
-    const response = await axios.request<ServerResponse>({
-      baseURL: 'https://conduit.productionready.io/api/',
-      url,
-      method,
-      data,
-      headers: getHeaders(),
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (err) {
+    if (!noLoadingIndication) store.dispatch(actions.setNotLoading());
     return err.response;
   }
 };

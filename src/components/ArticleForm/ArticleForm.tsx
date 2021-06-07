@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
 import { Article } from '../../types';
 import { useAppSelector } from '../../hooks';
-import blogApi from '../../api/BlogApiService';
+import RequestApiServices from '../../api/RequestApiService';
 import classes from './ArticleForm.module.scss';
 import { setArticlesToStore } from '../../store/dataReducer';
 import ErrorIndicator from '../ErrorIndicator/ErrorIndicator';
@@ -35,7 +35,7 @@ const ArticleForm: FC = () => {
       const requestedArticle = articlesFromStore.filter(
         (el) => el.slug === params.slug
       );
-      if (requestedArticle.length > 0) {
+      if (requestedArticle.length) {
         /* eslint-disable prefer-destructuring */
         setArticleContent(requestedArticle[0]);
         if (requestedArticle[0].tagList) {
@@ -43,7 +43,7 @@ const ArticleForm: FC = () => {
         }
         /* eslint-enable prefer-destructuring */
       } else {
-        blogApi(`articles/${params.slug}`).then((response) => {
+        RequestApiServices.fetchSingleArticle(params.slug).then((response) => {
           setArticleContent(response.article);
           if (response.article.tagList) {
             setFormTagList(response.article.tagList);
@@ -69,7 +69,9 @@ const ArticleForm: FC = () => {
       <p className={classes.tag}>{tag}</p>
       <button
         onClick={() =>
-          setFormTagList((tags) => tags.filter((currentTag) => currentTag !== tag))
+          setFormTagList((tags) =>
+            tags.filter((currentTag) => currentTag !== tag)
+          )
         }
         className={classes['article__form_delete-button']}
         type="button"
@@ -101,20 +103,22 @@ const ArticleForm: FC = () => {
       endpoint = 'articles';
     }
 
-    blogApi(endpoint, requestMethod, newArticle).then((response) => {
-      if (response.status === 422) {
-        const errorDetails = response.data.errors;
-        ErrorIndicator(errorDetails);
-      }
+    RequestApiServices.saveArticle(endpoint, requestMethod, newArticle).then(
+      (response) => {
+        if (response.status === 422) {
+          const errorDetails = response.data.errors;
+          ErrorIndicator(errorDetails);
+        }
 
-      if (response.article && params.slug) {
-        const newArticles = articlesFromStore.map((article) =>
-          article.slug === params.slug ? response.article : article
-        );
-        store.dispatch(setArticlesToStore(newArticles));
+        if (response.article && params.slug) {
+          const newArticles = articlesFromStore.map((article) =>
+            article.slug === params.slug ? response.article : article
+          );
+          store.dispatch(setArticlesToStore(newArticles));
+        }
+        history.push('/');
       }
-      history.push('/');
-    });
+    );
   };
 
   return (

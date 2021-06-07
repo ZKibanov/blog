@@ -6,7 +6,7 @@ export type Article = {
   body: string;
   createdAt: string;
   updatedAt: string;
-  tagList?: string[];
+  tagList: string[];
   description: string;
   author: {
     username: string;

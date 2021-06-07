@@ -4,15 +4,14 @@ import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 import { useAppSelector } from '../../hooks';
 import { setArticlesToStore } from '../../store/dataReducer';
 import Card from '../Card';
-import blogApi from '../../api/BlogApiService';
+import RequestApiService from '../../api/RequestApiService';
 import store from '../../store/store';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import classes from './Articles.module.scss';
 
 const Articles: FC = () => {
   const getArticles = async (pageNumber = 1) => {
-    const page = `?offset=${(pageNumber - 1) * 5}`;
-    await blogApi(`articles${page}`).then((data) => {
+    await RequestApiService.fetchArticles(pageNumber).then((data) => {
       if (data.articles) {
         store.dispatch(setArticlesToStore(data.articles));
       }
@@ -46,7 +45,7 @@ const Articles: FC = () => {
   );
 
   return (
-    <>
+    <ErrorBoundary>
       <div className={classes.articles}>{content}</div>
       <Pagination
         className={classes.pagination}
@@ -58,7 +57,7 @@ const Articles: FC = () => {
         hideOnSinglePage
         onChange={onChange}
       />
-    </>
+    </ErrorBoundary>
   );
 };
 

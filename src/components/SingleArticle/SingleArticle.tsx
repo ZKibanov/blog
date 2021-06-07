@@ -6,7 +6,7 @@ import { useAppSelector } from '../../hooks';
 import Card from '../Card/Card';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 import classes from './SingleArticle.module.scss';
-import blogApi from '../../api/BlogApiService';
+import RequestApiService from '../../api/RequestApiService';
 import { Article } from '../../types';
 
 interface Slug {
@@ -26,7 +26,7 @@ const SingleArticle: FC<Slug> = (props) => {
       setArticleContent(requestedArticle[0]);
       /* eslint-enable prefer-destructuring */
     } else {
-      blogApi(`articles/${slug}`).then((response) =>
+      RequestApiService.fetchSingleArticle(slug).then((response) =>
         setArticleContent(response.article)
       );
     }
@@ -34,7 +34,7 @@ const SingleArticle: FC<Slug> = (props) => {
   }, [articlesFromStore, slug]);
 
   const deleteArticle = async () => {
-    blogApi(`articles/${slug}`, 'DELETE').then((response) => history.goBack());
+    RequestApiService.deleteArticle(slug).then((response) => history.goBack());
   };
 
   const articleMenu =

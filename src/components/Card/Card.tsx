@@ -8,7 +8,7 @@ import classes from './Card.module.scss';
 import { useAppSelector } from '../../hooks';
 import { setArticlesToStore } from '../../store/dataReducer';
 import store from '../../store/store';
-import { blogApiWithoutLoadingIndication } from '../../api/BlogApiService';
+import RequestApiService from '../../api/RequestApiService';
 
 const Card: FC<Article> = (props: Article) => {
   const {
@@ -48,15 +48,8 @@ const Card: FC<Article> = (props: Article) => {
 
     const newArticleObject =
       favorited === false
-        ? await blogApiWithoutLoadingIndication(
-            `/articles/${slug}/favorite`,
-            'POST'
-          )
-        : await blogApiWithoutLoadingIndication(
-            `/articles/${slug}/favorite`,
-            'DELETE'
-          );
-
+        ? await RequestApiService.addToFavourites(slug)
+        : await RequestApiService.removeFromFavourites(slug);
     if (!newArticleObject.article) {
       store.dispatch(setArticlesToStore(oldArticlesObject));
     }

@@ -1,37 +1,63 @@
 import { useHistory } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-
-import blogApi  from './BlogApiService';
-import ErrorIndicator from '../components/ErrorIndicator/ErrorIndicator';
-import { manageUserToStore } from '../utils';
-import { Article, User } from '../types';
+import { Method } from 'axios';
+import blogApi, { ServerResponse } from './BlogApiService';
 
 interface UserInfo {
-    user:{
+  user: {
     password: string;
     email: string;
     username: string;
-    }
-  }
-
-class RequestApiService{
-    /* eslint-disable-next-line */
-    signUp(userInfo:UserInfo){
-    blogApi('users', 'POST', userInfo).then((response) => {
-        const [, setCookie, removeCookie] = useCookies(['Token']);
-        const history = useHistory();
-        if (response.status === 422) {
-          const errorDetails = response.data.errors;
-          ErrorIndicator(errorDetails);
-        }
-        if (response.user) {
-          const { username, email, token, image } = response.user;
-          setCookie('Authorization', token, { secure: true });
-          manageUserToStore(username, email, image);
-          history.push('/');
-        }
-      })
-    }
+  };
 }
 
-export default new RequestApiService;
+interface ArticleInfo {
+  article: {
+    title: string;
+    description: string;
+    body: string;
+    tagList: string[];
+  };
+}
+
+/* eslint-disable class-methods-use-this */
+
+class RequestApiService {
+  async signUp(userInfo: UserInfo): Promise<ServerResponse> {
+    return blogApi('users', 'POST', userInfo);
+  }
+
+  async addToFavourites(slug: string): Promise<ServerResponse> {
+    return blogApi(`/articles/${slug}/favorite`, 'POST', undefined, true);
+  }
+
+  async removeFromFavourites(slug: string): Promise<ServerResponse> {
+    return blogApi(`/articles/${slug}/favorite`, 'DELETE', undefined, true);
+  }
+
+  async fetchArticles(page: number): Promise<ServerResponse> {
+    return blogApi(`articles?offset=${(page - 1) * 5}`);
+  }
+
+  async fetchSingleArticle(slug: string): Promise<ServerResponse> {
+    return blogApi(`articles/${slug}`);
+  }
+
+  async deleteArticle(slug: string): Promise<ServerResponse> {
+    return blogApi(`articles/${slug}`, 'DELETE');
+  }
+
+  async saveArticle(
+    endpoint: string,
+    requestMethod: Method,
+    newArticle: ArticleInfo
+  ): Promise<ServerResponse> {
+    return blogApi(endpoint, requestMethod, newArticle);
+  }
+
+  async fetchUser(): Promise<ServerResponse> {
+    return blogApi('user', 'get');
+  }
+}
+
+export default new RequestApiService();
