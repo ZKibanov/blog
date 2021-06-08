@@ -9,7 +9,6 @@ import classes from './SingleArticle.module.scss';
 import RequestApiService from '../../api/RequestApiService';
 import { Article } from '../../types';
 
-
 interface Params {
   slug: string;
 }

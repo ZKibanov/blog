@@ -2,15 +2,20 @@ $background-color-base: #ffffff;
 $unsafe-operation: #f5222d;
 $safe-operation: #52c41a;
 
-.header {
+.header_wrapper {
+  height: 80px;
   background-color: $background-color-base;
+}
+
+.header {
   padding: 0 22px;
   justify-content: space-between;
   align-items: center;
   display: flex;
-  height: 80px;
+  height: 100%;
   text-align: center;
   margin: 0 auto;
+  max-width: 1920px;
 }
 
 .card__avatar {

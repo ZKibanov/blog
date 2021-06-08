@@ -57,8 +57,8 @@ class RequestApiService {
     return blogApi('user', 'get');
   }
 
-  async editUser(userInfo:UserInfo):Promise<ServerResponse>{
-    return blogApi('user', 'PUT', userInfo)
+  async editUser(userInfo: UserInfo): Promise<ServerResponse> {
+    return blogApi('user', 'PUT', userInfo);
   }
 }
 

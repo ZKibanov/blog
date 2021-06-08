@@ -37,7 +37,7 @@ const schema = yup.object().shape({
 
 export default function Profile() {
   const oldUserInfo = useAppSelector((state) => state.data.user);
-  const history=useHistory();
+  const history = useHistory();
 
   const {
     register,

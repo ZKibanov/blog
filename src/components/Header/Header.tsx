@@ -74,12 +74,14 @@ const Header: FC = () => {
   const content = getHeaderContent(userData);
 
   return (
-    <nav className={classes.header}>
-      <Link className={classes.header__link_flat} to="/">
-        Realworld Blog
-      </Link>
-      {content}
-    </nav>
+    <div className={classes.header_wrapper}>
+      <nav className={classes.header}>
+        <Link className={classes.header__link_flat} to="/">
+          Realworld Blog
+        </Link>
+        {content}
+      </nav>
+    </div>
   );
 };
 

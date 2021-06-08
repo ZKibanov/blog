@@ -39,7 +39,7 @@ const ArticleForm: FC = () => {
         /* eslint-disable prefer-destructuring */
         setArticleContent(requestedArticle[0]);
         setFormTagList(requestedArticle[0].tagList);
-        
+
         /* eslint-enable prefer-destructuring */
       } else {
         RequestApiServices.fetchSingleArticle(params.slug).then((response) => {

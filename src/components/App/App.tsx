@@ -18,7 +18,6 @@ import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 const App: FC = () => {
   const [cookie] = useCookies(['Autorization']);
-  const userData = useAppSelector((state) => state.data.user);
 
   useEffect(() => {
     if (cookie.Authorization) {
@@ -31,29 +30,29 @@ const App: FC = () => {
     }
   }, [cookie.Authorization]);
   return (
-      <BrowserRouter>
-        <Header />
-        <Switch>
-          <Route path="/sign-up" component={SignUpForm} />
-          <Route path="/sign-in" component={SignInForm} />
-          <Route path="/articles" exact component={Articles} />
-          <PrivateRoute path="/new-article">
-            <ArticleForm />
-          </PrivateRoute>
+    <BrowserRouter>
+      <Header />
+      <Switch>
+        <Route path="/sign-up" component={SignUpForm} />
+        <Route path="/sign-in" component={SignInForm} />
+        <Route path="/articles" exact component={Articles} />
+        <PrivateRoute path="/new-article">
+          <ArticleForm />
+        </PrivateRoute>
 
-          <PrivateRoute path="/articles/:slug/edit">
-            <ArticleForm />
-          </PrivateRoute>
+        <PrivateRoute path="/articles/:slug/edit">
+          <ArticleForm />
+        </PrivateRoute>
 
-          <PrivateRoute path="/profile">
-            <Profile />
-          </PrivateRoute>
+        <PrivateRoute path="/profile">
+          <Profile />
+        </PrivateRoute>
 
-          <Route path="/articles/:slug" exact component={SingleArticle} />
+        <Route path="/articles/:slug" exact component={SingleArticle} />
 
-          <Route path="/" exact component={Articles} />
-        </Switch>
-      </BrowserRouter>
+        <Route path="/" exact component={Articles} />
+      </Switch>
+    </BrowserRouter>
   );
 };
 

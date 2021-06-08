@@ -9,6 +9,8 @@ import { useAppSelector } from '../../hooks';
 import { setArticlesToStore } from '../../store/dataReducer';
 import store from '../../store/store';
 import RequestApiService from '../../api/RequestApiService';
+import heart from '../../images/heart_active1.svg';
+import noheart from '../../images/heart1.svg';
 
 const Card: FC<Article> = (props: Article) => {
   const {
@@ -56,22 +58,18 @@ const Card: FC<Article> = (props: Article) => {
   };
 
   const isAuthorized = !!user;
+  const reactionButtonStyle = favorited
+    ? { backgroundImage: `url(${heart})` }
+    : { backgroundImage: `url(${noheart})` };
 
-  const likeButton = favorited ? (
+  const likeButton = (
     <button
       type="button"
       aria-label="remove like"
       disabled={!isAuthorized}
+      style={reactionButtonStyle}
       onClick={addReaction}
-      className={classes['card__unfavourite-button']}
-    />
-  ) : (
-    <button
-      type="button"
-      aria-label="add like"
-      disabled={!isAuthorized}
-      onClick={addReaction}
-      className={classes['card__favourite-button']}
+      className={classes['card__add-reaction-button']}
     />
   );
 
