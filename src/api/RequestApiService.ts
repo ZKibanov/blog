@@ -1,5 +1,3 @@
-import { useHistory } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 import { Method } from 'axios';
 import blogApi, { ServerResponse } from './BlogApiService';
 
@@ -57,6 +55,10 @@ class RequestApiService {
 
   async fetchUser(): Promise<ServerResponse> {
     return blogApi('user', 'get');
+  }
+
+  async editUser(userInfo:UserInfo):Promise<ServerResponse>{
+    return blogApi('user', 'PUT', userInfo)
   }
 }
 

@@ -31,7 +31,6 @@ const App: FC = () => {
     }
   }, [cookie.Authorization]);
   return (
-    <>
       <BrowserRouter>
         <Header />
         <Switch>
@@ -50,19 +49,11 @@ const App: FC = () => {
             <Profile />
           </PrivateRoute>
 
-          <Route
-            path="/articles/:slug"
-            exact
-            render={({ match, history, location }) => {
-              const { slug } = match.params;
-              return <SingleArticle slug={slug} />;
-            }}
-          />
+          <Route path="/articles/:slug" exact component={SingleArticle} />
 
           <Route path="/" exact component={Articles} />
         </Switch>
       </BrowserRouter>
-    </>
   );
 };
 

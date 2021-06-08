@@ -45,7 +45,7 @@ const Header: FC = () => {
               onClick={() => {
                 store.dispatch(updateUserInStore(null));
                 removeCookie('Authorization');
-                history.go(0);
+                history.push('/');
               }}
             >
               Log Out

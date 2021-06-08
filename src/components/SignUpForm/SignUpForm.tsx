@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ FC }from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
@@ -38,7 +38,7 @@ const schema = yup.object().shape({
     .oneOf([true], 'For registration need your confirmation'),
 });
 
-export default function SignUpForm() {
+ const SignUpForm:FC = ( )=> {
   const {
     register,
     handleSubmit,
@@ -146,3 +146,5 @@ export default function SignUpForm() {
     </div>
   );
 }
+
+export default SignUpForm;

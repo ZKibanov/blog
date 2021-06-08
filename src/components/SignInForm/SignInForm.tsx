@@ -44,7 +44,7 @@ const SignInForm: FC = () => {
         const { username, email, token, image } = response.user;
         setCookie('Authorization', token, { secure: true });
         manageUserToStore(username, email, image);
-        history.goBack();
+        history.push('/');
       }
     });
   };

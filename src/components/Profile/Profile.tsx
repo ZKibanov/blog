@@ -1,10 +1,11 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { notification } from 'antd';
 import { useAppSelector } from '../../hooks';
-import BlogApi from '../../api/BlogApiService';
+import RequestApiService from '../../api/RequestApiService';
 import { updateUserInStore } from '../../store/dataReducer';
 import store from '../../store/store';
 import classes from './Profile.module.scss';
@@ -36,6 +37,7 @@ const schema = yup.object().shape({
 
 export default function Profile() {
   const oldUserInfo = useAppSelector((state) => state.data.user);
+  const history=useHistory();
 
   const {
     register,
@@ -61,7 +63,7 @@ export default function Profile() {
         password,
       },
     };
-    BlogApi('user', 'PUT', userInfo).then((response) => {
+    RequestApiService.editUser(userInfo).then((response) => {
       if (response.status === 422) {
         const errorDetails = response.data.errors;
         for (const property in errorDetails) {
@@ -73,7 +75,10 @@ export default function Profile() {
           }
         }
       }
-      if (response.user) store.dispatch(updateUserInStore(response.user));
+      if (response.user) {
+        store.dispatch(updateUserInStore(response.user));
+        history.push('/');
+      }
     });
   };
 

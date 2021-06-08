@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Popconfirm } from 'antd';
 import ReactMarkdown from 'react-markdown';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 import Card from '../Card/Card';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
@@ -9,17 +9,21 @@ import classes from './SingleArticle.module.scss';
 import RequestApiService from '../../api/RequestApiService';
 import { Article } from '../../types';
 
-interface Slug {
+
+interface Params {
   slug: string;
 }
-const SingleArticle: FC<Slug> = (props) => {
+
+const SingleArticle: FC = () => {
   const [articleContent, setArticleContent] = useState<Article | undefined>();
-  const { slug } = props;
+  const params: Params = useParams();
+  const { slug } = params;
   const history = useHistory();
   const userData = useAppSelector((state) => state.data.user);
   const isLoading = useAppSelector((state) => state.services.isLoading);
   const articlesFromStore = useAppSelector((state) => state.data.articles);
   const requestedArticle = articlesFromStore.filter((el) => el.slug === slug);
+
   useEffect(() => {
     if (requestedArticle.length > 0) {
       /* eslint-disable prefer-destructuring */
@@ -34,7 +38,7 @@ const SingleArticle: FC<Slug> = (props) => {
   }, [articlesFromStore, slug]);
 
   const deleteArticle = async () => {
-    RequestApiService.deleteArticle(slug).then((response) => history.goBack());
+    RequestApiService.deleteArticle(slug).then((response) => history.push('/'));
   };
 
   const articleMenu =
