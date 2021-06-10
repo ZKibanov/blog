@@ -34,7 +34,7 @@ const SingleArticle: FC = () => {
       );
     }
     // eslint-disable-next-line
-  }, [articlesFromStore, slug]);
+  }, [articlesFromStore, slug,userData]);
 
   const deleteArticle = async () => {
     RequestApiService.deleteArticle(slug).then((response) => history.push('/'));

@@ -1,5 +1,4 @@
 import React, { FC, useState, useEffect } from 'react';
-import { Method } from 'axios';
 import { useForm } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
 import { Article } from '../../types';
@@ -92,18 +91,10 @@ const ArticleForm: FC = () => {
       },
     };
 
-    let requestMethod: Method;
-    let endpoint;
-    if (params.slug) {
-      requestMethod = 'PUT';
-      endpoint = `articles/${params.slug}`;
-    } else {
-      requestMethod = 'POST';
-      endpoint = 'articles';
-    }
-
-    RequestApiServices.saveArticle(endpoint, requestMethod, newArticle).then(
-      (response) => {
+    (params.slug?
+    RequestApiServices.editArticle(params.slug,newArticle):
+    RequestApiServices.addArticle(newArticle))
+    .then(response => {
         if (response.status === 422) {
           const errorDetails = response.data.errors;
           ErrorIndicator(errorDetails);

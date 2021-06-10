@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import RequestApiService from '../../api/RequestApiService';
 import { manageUserToStore } from '../../utils';
-import { useAppSelector } from '../../hooks';
 import Articles from '../Articles/Articles';
 import Header from '../Header/Header';
 import SignInForm from '../SignInForm/SignInForm';

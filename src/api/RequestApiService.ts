@@ -1,4 +1,3 @@
-import { Method } from 'axios';
 import blogApi, { ServerResponse } from './BlogApiService';
 
 interface UserInfo {
@@ -45,12 +44,12 @@ class RequestApiService {
     return blogApi(`articles/${slug}`, 'DELETE');
   }
 
-  async saveArticle(
-    endpoint: string,
-    requestMethod: Method,
-    newArticle: ArticleInfo
-  ): Promise<ServerResponse> {
-    return blogApi(endpoint, requestMethod, newArticle);
+  async addArticle(newArticle:ArticleInfo):Promise<ServerResponse>{
+    return blogApi('articles','post',newArticle)
+  }
+
+  async editArticle(slug:string,newArticle:ArticleInfo):Promise<ServerResponse>{
+    return blogApi(`articles/${slug}`,'put',newArticle)
   }
 
   async fetchUser(): Promise<ServerResponse> {
