@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
 import { Article } from '../../types';
 import { useAppSelector } from '../../hooks';
-import RequestApiServices from '../../api/RequestApiService';
+import RequestApiService from '../../api/RequestApiService';
 import classes from './ArticleForm.module.scss';
 import { setArticlesToStore } from '../../store/dataReducer';
 import ErrorIndicator from '../ErrorIndicator/ErrorIndicator';
@@ -38,13 +38,17 @@ const ArticleForm: FC = () => {
         /* eslint-disable prefer-destructuring */
         setArticleContent(requestedArticle[0]);
         setFormTagList(requestedArticle[0].tagList);
-
         /* eslint-enable prefer-destructuring */
       } else {
-        RequestApiServices.fetchSingleArticle(params.slug).then((response) => {
-          setArticleContent(response.article);
-          if (response.article.tagList) {
-            setFormTagList(response.article.tagList);
+        Promise.all([
+          RequestApiService.fetchUser(),
+          RequestApiService.fetchSingleArticle(params.slug),
+        ]).then((values) => {
+          if (values[0].user && values[1].article) {
+            if (values[0].user.username === values[1].article.author.username) {
+              setArticleContent(values[1].article);
+              setFormTagList(values[1].article.tagList);
+            } else history.push('/sign-in');
           }
         });
       }
@@ -91,24 +95,23 @@ const ArticleForm: FC = () => {
       },
     };
 
-    (params.slug?
-    RequestApiServices.editArticle(params.slug,newArticle):
-    RequestApiServices.addArticle(newArticle))
-    .then(response => {
-        if (response.status === 422) {
-          const errorDetails = response.data.errors;
-          ErrorIndicator(errorDetails);
-        }
-
-        if (response.article && params.slug) {
-          const newArticles = articlesFromStore.map((article) =>
-            article.slug === params.slug ? response.article : article
-          );
-          store.dispatch(setArticlesToStore(newArticles));
-        }
-        history.push('/');
+    (params.slug
+      ? RequestApiService.editArticle(params.slug, newArticle)
+      : RequestApiService.addArticle(newArticle)
+    ).then((response) => {
+      if (response.status === 422) {
+        const errorDetails = response.data.errors;
+        ErrorIndicator(errorDetails);
       }
-    );
+
+      if (response.article && params.slug) {
+        const newArticles = articlesFromStore.map((article) =>
+          article.slug === params.slug ? response.article : article
+        );
+        store.dispatch(setArticlesToStore(newArticles));
+      }
+      history.push('/');
+    });
   };
 
   return (
@@ -190,7 +193,12 @@ const ArticleForm: FC = () => {
         >
           Send
         </button>
-        {errors.newArticleTitle && <span>This field is required</span>}
+        {errors.newArticleTitle && (
+          <span style={{ color: 'red' }}>
+            {' '}
+            Fields "Title","Short description" and "Text" are required!{' '}
+          </span>
+        )}
       </div>
     </form>
   );

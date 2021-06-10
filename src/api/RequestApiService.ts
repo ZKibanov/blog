@@ -44,12 +44,15 @@ class RequestApiService {
     return blogApi(`articles/${slug}`, 'DELETE');
   }
 
-  async addArticle(newArticle:ArticleInfo):Promise<ServerResponse>{
-    return blogApi('articles','post',newArticle)
+  async addArticle(newArticle: ArticleInfo): Promise<ServerResponse> {
+    return blogApi('articles', 'post', newArticle);
   }
 
-  async editArticle(slug:string,newArticle:ArticleInfo):Promise<ServerResponse>{
-    return blogApi(`articles/${slug}`,'put',newArticle)
+  async editArticle(
+    slug: string,
+    newArticle: ArticleInfo
+  ): Promise<ServerResponse> {
+    return blogApi(`articles/${slug}`, 'put', newArticle);
   }
 
   async fetchUser(): Promise<ServerResponse> {

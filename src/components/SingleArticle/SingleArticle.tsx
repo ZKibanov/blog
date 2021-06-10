@@ -14,13 +14,13 @@ interface Params {
 }
 
 const SingleArticle: FC = () => {
+  const userData = useAppSelector((state) => state.data.user);
+  const isLoading = useAppSelector((state) => state.services.isLoading);
+  const articlesFromStore = useAppSelector((state) => state.data.articles);
   const [articleContent, setArticleContent] = useState<Article | undefined>();
   const params: Params = useParams();
   const { slug } = params;
   const history = useHistory();
-  const userData = useAppSelector((state) => state.data.user);
-  const isLoading = useAppSelector((state) => state.services.isLoading);
-  const articlesFromStore = useAppSelector((state) => state.data.articles);
   const requestedArticle = articlesFromStore.filter((el) => el.slug === slug);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const SingleArticle: FC = () => {
       );
     }
     // eslint-disable-next-line
-  }, [articlesFromStore, slug,userData]);
+  }, [articlesFromStore, slug, userData]);
 
   const deleteArticle = async () => {
     RequestApiService.deleteArticle(slug).then((response) => history.push('/'));
@@ -42,8 +42,8 @@ const SingleArticle: FC = () => {
 
   const articleMenu =
     userData &&
-    requestedArticle[0] &&
-    userData.username === requestedArticle[0].author.username ? (
+    articleContent &&
+    userData.username === articleContent.author.username ? (
       <div className={classes.article__menu}>
         <Popconfirm
           placement="rightBottom"
@@ -83,14 +83,27 @@ const SingleArticle: FC = () => {
         <ReactMarkdown className={classes.article__main}>{body}</ReactMarkdown>
       </article>
     );
-  } else if (!articleContent && !isLoading) {
+  }
+
+  if (isLoading)
     content = (
-      <div>
+      <div style={{ textAlign: 'center' }}>
+        <LoadingIndicator />
+      </div>
+    );
+  if (!isLoading && !articleContent) {
+    content = (
+      <div
+        style={{
+          color: 'red',
+          fontSize: '30px',
+          textAlign: 'center',
+          paddingTop: '30px',
+        }}
+      >
         <p>Статья не найдена</p>
       </div>
     );
-  } else if (isLoading) {
-    content = LoadingIndicator;
   }
 
   return <>{content}</>;
