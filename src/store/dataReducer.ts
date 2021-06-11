@@ -24,18 +24,3 @@ const dataSlice = createSlice({
 
 export const { setArticlesToStore, updateUserInStore } = dataSlice.actions;
 export default dataSlice.reducer;
-
-// {
-//     setLoading(state) {
-//       state.isLoading = true;
-//     },
-//     setNotLoading(state) {
-//       state.isLoading = false;
-//     },
-//     setError(state) {
-//       state.hasError = true;
-//     },
-//     setNoError(state) {
-//       state.hasError = false;
-//     },
-//   },

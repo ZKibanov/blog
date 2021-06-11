@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import RequestApiService from '../../api/RequestApiService';
-import { manageUserToStore } from '../../utils';
+import { asyncManageUserToStore } from '../../store/asyncActions';
 import Articles from '../Articles/Articles';
 import Header from '../Header/Header';
 import SignInForm from '../SignInForm/SignInForm';
@@ -17,16 +17,12 @@ import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 const App: FC = () => {
   const [cookie] = useCookies(['Autorization']);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (cookie.Authorization) {
-      RequestApiService.fetchUser().then((response) => {
-        if (response.user) {
-          const { username, email, image } = response.user;
-          manageUserToStore(username, email, image);
-        }
-      });
+      dispatch(asyncManageUserToStore());
     }
+    /* eslint-disable-next-line */
   }, [cookie.Authorization]);
   return (
     <BrowserRouter>
